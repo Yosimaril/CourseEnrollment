@@ -5,12 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0bfa56a-8301-4e6a-8b0a-fb0571b6f00b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/CourseEnrollment.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CourseEnrollment.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pages/auth/login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pages/auth/login.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pages/auth/register.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pages/auth/register.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pages/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pages/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/nuxt.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/nuxt.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/course_enrollment_v1.mwb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/course_enrollment_v1.mwb.bak" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/course_enrollment_v1.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/erd_v1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/endpoint/controllers/course_plan_item_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/endpoint/controllers/course_plan_item_controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/endpoint/routes/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/endpoint/routes/routes.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/app/pages/admin/courses/[id].vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pages/admin/courses/[id].vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/app/pages/admin/courses/create.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pages/admin/courses/create.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/app/pages/admin/courses/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pages/admin/courses/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/app/pages/admin/dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pages/admin/dashboard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/app/pages/student/courses.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pages/student/courses.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/app/pages/student/dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pages/student/dashboard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/app/services/course.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/services/course.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/app/services/coursePlanItem.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/services/coursePlanItem.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

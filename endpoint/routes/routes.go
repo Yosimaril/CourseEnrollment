@@ -3,6 +3,7 @@ package routes
 import (
 	"time"
 
+	"yosimaril/CourseEnrollment/constants"
 	"yosimaril/CourseEnrollment/controllers"
 	"yosimaril/CourseEnrollment/middleware"
 
@@ -51,7 +52,7 @@ func SetupRouter() *gin.Engine {
 	}
 
 	api := r.Group("/")
-	// api.Use(middleware.JWT())
+	api.Use(middleware.JWT())
 
 	{
 		users := api.Group("/users")
@@ -67,9 +68,19 @@ func SetupRouter() *gin.Engine {
 		{
 			courses.GET("", courseController.GetAll)
 			courses.GET("/:id", courseController.GetByID)
-			courses.POST("", courseController.Create)
-			courses.PUT("/:id", courseController.Update)
-			courses.DELETE("/:id", courseController.Delete)
+		}
+
+		admin := api.Group("/admin")
+		admin.Use(middleware.RequireRole(constants.RoleAdmin))
+		{
+			adminCourses := admin.Group("/courses")
+			{
+				adminCourses.GET("", courseController.GetAll)
+				adminCourses.GET("/:id", courseController.GetByID)
+				adminCourses.POST("", courseController.Create)
+				adminCourses.PUT("/:id", courseController.Update)
+				adminCourses.DELETE("/:id", courseController.Delete)
+			}
 		}
 
 		coursePlans := api.Group("/coursePlans")
@@ -88,6 +99,12 @@ func SetupRouter() *gin.Engine {
 			coursePlanItems.POST("", coursePlanItemController.Create)
 			coursePlanItems.PUT("/:id", coursePlanItemController.Update)
 			coursePlanItems.DELETE("/:id", coursePlanItemController.Delete)
+		}
+
+		student := api.Group("/student")
+		student.Use(middleware.RequireRole(constants.RoleStudent))
+		{
+			student.POST("/picked-courses", coursePlanItemController.AddToPickedCourses)
 		}
 	}
 

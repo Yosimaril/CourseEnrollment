@@ -10,21 +10,21 @@ export const CourseService = {
     },
 
     async createCourse(course: any) {
-        return await $api("/admin/course", {
+        return await $api("/admin/courses", {
             method: "POST",
             body: course
         })
     },
 
     async updateCourse(id: number, course: any) {
-        return await $api(`/admin/course/${id}`, {
+        return await $api(`/admin/courses/${id}`, {
             method: "PUT",
             body: course
         })
     },
 
     async deleteCourse(id: number) {
-        return await $api(`/admin/course/${id}`, {
+        return await $api(`/admin/courses/${id}`, {
             method: "DELETE"
         })
     }

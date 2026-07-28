@@ -7,11 +7,13 @@ import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 
+	"yosimaril/CourseEnrollment/constants"
 	"yosimaril/CourseEnrollment/dto"
 	"yosimaril/CourseEnrollment/i18n"
 	"yosimaril/CourseEnrollment/models"
 	"yosimaril/CourseEnrollment/repositories"
 	"yosimaril/CourseEnrollment/utils/helpers"
+	"yosimaril/CourseEnrollment/utils/token"
 )
 
 type CoursePlanItemController struct{}
@@ -114,6 +116,120 @@ func (cpc CoursePlanItemController) Create(c *gin.Context) {
 	}
 
 	repo := repositories.CoursePlanItemRepository{}
+
+	if err := repo.Create(&coursePlanItem); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusCreated, coursePlanItem)
+}
+
+func (cpc CoursePlanItemController) AddToPickedCourses(c *gin.Context) {
+	claimsValue, exists := c.Get("claims")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": "Unauthorized",
+		})
+		return
+	}
+
+	claims, ok := claimsValue.(*token.Claims)
+	if !ok {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": "Unauthorized",
+		})
+		return
+	}
+
+	if claims.UserRole != constants.RoleStudent {
+		c.JSON(http.StatusForbidden, gin.H{
+			"message": "Forbidden",
+		})
+		return
+	}
+
+	var request struct {
+		CourseID uint `json:"course_id" binding:"required"`
+	}
+
+	if err := c.ShouldBindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	courseRepo := repositories.CourseRepository{}
+	if _, err := courseRepo.GetByID(request.CourseID); err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusNotFound, gin.H{
+				"message": "Course not found",
+			})
+			return
+		}
+
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	coursePlanRepo := repositories.CoursePlanRepository{}
+	coursePlans, err := coursePlanRepo.GetAll(claims.UserID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	var coursePlan *models.CoursePlan
+	for i := range coursePlans {
+		if coursePlans[i].Status == constants.CoursePlanDraft {
+			coursePlan = &coursePlans[i]
+			break
+		}
+	}
+
+	if coursePlan == nil {
+		newCoursePlan := models.CoursePlan{
+			StudentID: claims.UserID,
+			Status:    constants.CoursePlanDraft,
+		}
+
+		if err := coursePlanRepo.Create(&newCoursePlan); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"message": err.Error(),
+			})
+			return
+		}
+
+		coursePlan = &newCoursePlan
+	}
+
+	repo := repositories.CoursePlanItemRepository{}
+	_, err = repo.GetByID(coursePlan.ID, request.CourseID)
+	if err == nil {
+		c.JSON(http.StatusConflict, gin.H{
+			"message": "Course already added",
+		})
+		return
+	}
+	if !errors.Is(err, gorm.ErrRecordNotFound) {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	coursePlanItem := models.CoursePlanItem{
+		CoursePlanID: coursePlan.ID,
+		CourseID:     request.CourseID,
+		Status:       constants.CoursePlanItemPending,
+	}
 
 	if err := repo.Create(&coursePlanItem); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
