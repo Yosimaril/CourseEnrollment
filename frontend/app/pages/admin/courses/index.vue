@@ -62,16 +62,43 @@
             >
               Edit
             </NuxtLink>
-            <NuxtLink
-              :to="`/admin/courses/${course.id}/delete`"
+            <button
+              @click="confirmDelete(course)"
               class="inline-flex flex-1 min-h-11 items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 font-semibold text-slate-900 transition hover:border-blue-900"
             >
               Delete
-            </NuxtLink>
+            </button>
           </div>
         </article>
       </div>
     </section>
+
+    <!-- Delete Confirmation Modal -->
+    <Modal :is-open="isModalOpen" @close="closeModal">
+      <template #header>Delete Course</template>
+      <template #body>
+        <p>Are you sure you want to delete the course "{{ courseToDelete?.name }}" ({{ courseToDelete?.code }})?</p>
+        <p class="text-sm text-red-600 mt-2">This action cannot be undone.</p>
+        <p v-if="submitErrorMessage" class="mt-4 text-md text-red-700">{{ submitErrorMessage }}</p>
+      </template>
+      <template #footer>
+        <button
+          @click="closeModal"
+          type="button"
+          class="inline-flex min-h-11 items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 font-semibold text-slate-900 transition hover:border-blue-900"
+        >
+          Cancel
+        </button>
+        <button
+          @click="deleteCourse"
+          type="button"
+          class="inline-flex min-h-11 items-center justify-center rounded-md bg-red-600 px-4 py-2 font-semibold text-white transition hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-75"
+          :disabled="isDeleting"
+        >
+          {{ isDeleting ? "Deleting..." : "Delete" }}
+        </button>
+      </template>
+    </Modal>
   </main>
 </template>
 
@@ -79,6 +106,7 @@
 import { CourseService } from "~/services/course"
 import type { Course } from "~/models/course"
 import { extractErrorMessage } from "~/utils/auth"
+import Modal from "~/components/Modal.vue" // Import the Modal component
 
 definePageMeta({
   middleware: ["auth", "admin"],
@@ -88,7 +116,18 @@ const courses = ref<Course[]>([])
 const isLoading = ref(true)
 const errorMessage = ref("")
 
+const isModalOpen = ref(false)
+const courseToDelete = ref<Course | null>(null)
+const isDeleting = ref(false)
+const submitErrorMessage = ref("")
+
 onMounted(async () => {
+  await fetchCourses()
+})
+
+async function fetchCourses() {
+  isLoading.value = true
+  errorMessage.value = ""
   try {
     const response = await CourseService.getCourses()
     courses.value = Array.isArray(response) ? response : []
@@ -97,5 +136,35 @@ onMounted(async () => {
   } finally {
     isLoading.value = false
   }
-})
+}
+
+function confirmDelete(course: Course) {
+  courseToDelete.value = course
+  submitErrorMessage.value = "" // Clear previous errors
+  isModalOpen.value = true
+}
+
+function closeModal() {
+  isModalOpen.value = false
+  courseToDelete.value = null
+  isDeleting.value = false
+  submitErrorMessage.value = ""
+}
+
+async function deleteCourse() {
+  if (!courseToDelete.value) return
+
+  isDeleting.value = true
+  submitErrorMessage.value = ""
+
+  try {
+    await CourseService.deleteCourse(courseToDelete.value.id)
+    await fetchCourses() // Refresh the list after deletion
+    closeModal()
+  } catch (error) {
+    submitErrorMessage.value = extractErrorMessage(error, "Unable to delete course right now.")
+  } finally {
+    isDeleting.value = false
+  }
+}
 </script>

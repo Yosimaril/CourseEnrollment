@@ -5,20 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0bfa56a-8301-4e6a-8b0a-fb0571b6f00b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/database/course_enrollment_v1.mwb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/course_enrollment_v1.mwb.bak" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/course_enrollment_v1.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/erd_v1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/endpoint/controllers/course_plan_item_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/endpoint/controllers/course_plan_item_controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/endpoint/routes/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/endpoint/routes/routes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pages/admin/courses/[id].vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pages/admin/courses/[id].vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pages/admin/courses/create.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pages/admin/courses/create.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/endpoint/dto/student_dto.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/endpoint/models/student.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/endpoint/repositories/student_repository.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/app/components/Modal.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/handler/student_handler.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/model/student.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/repository/student_repository.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/service/student_service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/app/pages/admin/courses/[id]/delete.vue" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/app/pages/admin/courses/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pages/admin/courses/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pages/admin/dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pages/admin/dashboard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pages/student/courses.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pages/student/courses.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pages/student/dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pages/student/dashboard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/services/course.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/services/course.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/services/coursePlanItem.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/services/coursePlanItem.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +31,71 @@
   </component>
   <component name="GOROOT" url="file://$PROJECT_DIR$/../../../../../Program Files/Go" />
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.017539214559213" />
+      <entry key="MS500" value="2.8537981772425693" />
+      <entry key="S2" value="5.985483905191409" />
+      <entry key="S5" value="7.107903388449955" />
+      <entry key="S10" value="7.538130865014589" />
+      <entry key="S30" value="7.842382598846925" />
+      <entry key="S60" value="7.920724273519058" />
+      <entry key="M2" value="7.960244663153401" />
+      <entry key="M5" value="7.984069579281262" />
+      <entry key="M10" value="7.992030067595872" />
+      <entry key="M15" value="7.99468566181506" />
+      <entry key="M30" value="7.997342305806631" />
+      <entry key="H1" value="7.998671021601247" />
+      <entry key="H2" value="7.999335477971749" />
+      <entry key="H4" value="7.999667730778236" />
+      <entry key="D1" value="7.999944620656387" />
+      <entry key="W1" value="7.99999208863728" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="0.0" />
+      <entry key="M2" value="0.0" />
+      <entry key="M5" value="0.0" />
+      <entry key="M10" value="0.0" />
+      <entry key="M15" value="0.0" />
+      <entry key="M30" value="0.0" />
+      <entry key="H1" value="0.0" />
+      <entry key="H2" value="0.0" />
+      <entry key="H4" value="0.0" />
+      <entry key="D1" value="0.0" />
+      <entry key="W1" value="0.0" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.8921675124110012" />
+      <entry key="MS500" value="2.7296567107787255" />
+      <entry key="S2" value="5.889790533679007" />
+      <entry key="S5" value="7.058767602304452" />
+      <entry key="S10" value="7.5113952331994875" />
+      <entry key="S30" value="7.832950743451697" />
+      <entry key="S60" value="7.915940816931733" />
+      <entry key="M2" value="7.95783585725297" />
+      <entry key="M5" value="7.983101933049977" />
+      <entry key="M10" value="7.991545555054666" />
+      <entry key="M15" value="7.994362500091649" />
+      <entry key="M30" value="7.997180648224355" />
+      <entry key="H1" value="7.998590173622603" />
+      <entry key="H2" value="7.999295049184627" />
+      <entry key="H4" value="7.999647515185111" />
+      <entry key="D1" value="7.999941251224251" />
+      <entry key="W1" value="7.999991607285751" />
+    </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6,
@@ -61,7 +123,7 @@
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "copilot.chat.legacySessionMetadata.migrated": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "students",
     "go.sdk.automatically.set": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/BrokenChord/Documents/GitHub/CourseEnrollment",
