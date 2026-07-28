@@ -1,0 +1,9 @@
+{
+  "category_not_found": "Category not found",
+  "comic_not_found": "Comic not found",
+  "user_not_found": "User not found",
+  "invalid_id": "Invalid ID",
+  "internal_server_error": "Internal server error",
+  "category_deleted": "Category successfully deleted",
+  "too_many_requests": "Too many requests"
+}

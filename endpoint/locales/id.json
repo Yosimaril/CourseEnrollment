@@ -1,0 +1,9 @@
+{
+  "category_not_found": "Kategori tidak ditemukan",
+  "comic_not_found": "Komik tidak ditemukan",
+  "user_not_found": "Pengguna tidak ditemukan",
+  "invalid_id": "ID tidak valid",
+  "internal_server_error": "Terjadi kesalahan pada server",
+  "category_deleted": "Kategori berhasil dihapus",
+  "too_many_requests": "Terlalu banyak permintaan"
+}

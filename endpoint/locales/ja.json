@@ -1,0 +1,9 @@
+{
+  "category_not_found": "カテゴリが見つかりません",
+  "comic_not_found": "コミックが見つかりません",
+  "user_not_found": "ユーザーが見つかりません",
+  "invalid_id": "無効なIDです",
+  "internal_server_error": "サーバー内部エラー",
+  "category_deleted": "カテゴリが正常に削除されました",
+  "too_many_requests": "過度なリクエスト"
+}
