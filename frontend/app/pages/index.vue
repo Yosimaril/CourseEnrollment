@@ -1,21 +1,31 @@
 <template>
-    <main class="landing-shell">
-        <section class="hero-card">
-            <p class="eyebrow">Course Enrollment</p>
-            <h1>Sign in, register, and get routed straight into the right student or admin flow.</h1>
-            <p class="lede">The frontend now talks to the Go auth endpoints, stores the JWT, and sends users to the correct dashboard based on the role in the token.</p>
+    <main class="min-h-screen bg-slate-50 px-4 py-6 grid place-items-center">
+        <section class="w-full max-w-3xl rounded-md bg-white p-8 shadow-md sm:p-10">
+            <p class="mb-3 text-sm font-bold uppercase tracking-[0.08em] text-slate-600">Course Enrollment</p>
+            <h1 class="text-4xl font-bold leading-tight text-slate-900 sm:text-5xl">
+                Simple login and registration for students and admins.
+            </h1>
+            <p class="mt-4 max-w-2xl text-base leading-7 text-slate-600">
+                Sign in, create an account, and move straight to the right dashboard based on your role.
+            </p>
 
-            <div class="actions">
-                <NuxtLink to="/auth/login" class="primary-action">Login</NuxtLink>
-                <NuxtLink to="/auth/register" class="secondary-action">Register</NuxtLink>
+            <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+                <NuxtLink
+                    to="/auth/login"
+                    class="inline-flex min-h-11 items-center justify-center rounded-md bg-blue-900 px-4 py-2 font-semibold text-white transition hover:bg-blue-800"
+                >
+                    Login
+                </NuxtLink>
+                <NuxtLink
+                    to="/auth/register"
+                    class="inline-flex min-h-11 items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 font-semibold text-slate-900 transition hover:border-blue-900"
+                >
+                    Register
+                </NuxtLink>
             </div>
-        </section>
 
-        <aside class="status-card">
-            <p class="status-label">Current session</p>
-            <p class="status-value">{{ sessionState }}</p>
-            <p class="status-note">If a token exists, you will be forwarded automatically.</p>
-        </aside>
+            <p class="mt-4 text-sm text-slate-500">{{ sessionState }}</p>
+        </section>
     </main>
 </template>
 
@@ -33,6 +43,3 @@ onMounted(async () => {
     }
 });
 </script>
-
-<style scoped>
-</style>

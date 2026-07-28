@@ -1,31 +1,47 @@
 <template>
-    <main class="auth-shell">
-        <section class="auth-card">
-            <div class="hero-copy">
-                <p class="eyebrow">Course Enrollment</p>
-                <h1>Welcome back.</h1>
-            </div>
+    <main class="min-h-screen bg-slate-50 px-4 py-6 grid place-items-center">
+        <section class="w-full max-w-md rounded-md bg-white p-8 shadow-md sm:p-10">
+            <h1 class="mb-6 text-center text-3xl font-bold text-slate-900">Login</h1>
 
-            <form class="auth-form" @submit.prevent="submitLogin">
-                <label class="field">
-                    <span>Email</span>
-                    <input v-model.trim="form.email" type="email" placeholder="yosimaril@example.com" autocomplete="email" required />
+            <form class="space-y-4" @submit.prevent="submitLogin">
+                <label class="space-y-2 block">
+                    <span class="block text-md font-semibold text-slate-900">Email</span>
+                    <input
+                        v-model.trim="form.email"
+                        type="email"
+                        placeholder="yosimaril@example.com"
+                        autocomplete="email"
+                        required
+                        class="w-full rounded-md border border-slate-200 bg-slate-100 px-4 py-2 outline-none transition focus:border-blue-900"
+                    />
                 </label>
 
-                <label class="field">
-                    <span>Password</span>
-                    <input v-model="form.password" type="password" placeholder="Enter your password" autocomplete="current-password" required minlength="6" />
+                <label class="space-y-2 block">
+                    <span class="block text-md font-semibold text-slate-900">Password</span>
+                    <input
+                        v-model="form.password"
+                        type="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                        minlength="6"
+                        class="w-full rounded-md border border-slate-200 bg-slate-100 px-4 py-2 outline-none transition focus:border-blue-900"
+                    />
                 </label>
 
-                <p v-if="errorMessage" class="message error">{{ errorMessage }}</p>
+                <p v-if="errorMessage" class="mt-1 text-md text-red-700">{{ errorMessage }}</p>
 
-                <button type="submit" class="submit-button" :disabled="isSubmitting">
+                <button
+                    type="submit"
+                    class="mt-4 w-full cursor-pointer rounded-md bg-blue-900 px-4 py-2 font-semibold text-white transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-75"
+                    :disabled="isSubmitting"
+                >
                     {{ isSubmitting ? "Logging in..." : "Login" }}
                 </button>
 
-                <p class="switch-link">
+                <p class="text-center text-sm text-slate-500">
                     No account yet?
-                    <NuxtLink to="/auth/register">Register here</NuxtLink>
+                    <NuxtLink to="/auth/register" class="font-bold text-blue-900 hover:underline">Register here</NuxtLink>
                 </p>
             </form>
         </section>
@@ -67,6 +83,3 @@ async function submitLogin() {
     }
 }
 </script>
-
-<style scoped>
-</style>
