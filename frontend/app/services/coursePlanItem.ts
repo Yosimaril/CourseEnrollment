@@ -9,4 +9,10 @@ export const CoursePlanItemService = {
 			},
 		})
 	},
+
+	async removeFromPickedCourses(courseId: number) {
+		return await $api(`/student/course-plan-items/${courseId}`, {
+			method: "DELETE",
+		})
+	},
 }

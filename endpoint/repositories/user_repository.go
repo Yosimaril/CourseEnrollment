@@ -11,13 +11,16 @@ import (
 
 type UserRepository struct{}
 
-func (r *UserRepository) GetAll(username string) ([]models.User, error) {
+func (r *UserRepository) GetAll(username string, role string) ([]models.User, error) {
 	var users []models.User
 
 	cacheKey := "user"
 
 	if username != "" {
 		cacheKey += ":" + username
+	}
+	if role != "" {
+		cacheKey += ":" + role
 	}
 
 	cached, err := config.Redis.Get(config.Ctx, cacheKey).Result()
@@ -36,6 +39,9 @@ func (r *UserRepository) GetAll(username string) ([]models.User, error) {
 
 	if username != "" {
 		db = db.Where("username LIKE ?", "%"+username+"%")
+	}
+	if role != "" {
+		db = db.Where("role = ?", role)
 	}
 
 	result := db.Find(&users)

@@ -1,9 +1,11 @@
 import { BaseModel } from "./baseModel"
 import { CoursePlanItemStatusEnum } from "../constants/coursePlanItemStatusEnum"
+import type { Course } from "./course"
 
 export interface CoursePlanItem extends BaseModel {
-    id: number
+    coursePlanId: number
     courseId: number
     status: CoursePlanItemStatusEnum
     remarks?: string
+    course?: Course
 }

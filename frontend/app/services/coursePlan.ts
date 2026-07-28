@@ -1,31 +1,43 @@
+import type { CoursePlan } from "~/models/coursePlan"
+import type { CoursePlanItemStatusEnum } from "~/constants/coursePlanItemStatusEnum"
+
 const { $api } = useNuxtApp()
 
 export const CoursePlanService = {
-    async getCourses() {
-        return await $api("/courses")
+    async getMyCoursePlan(): Promise<CoursePlan> {
+        return await $api("/student/course-plan")
     },
 
-    async getCourse(id: number) {
-        return await $api(`/courses/${id}`)
+    async getMyCoursePlans(): Promise<CoursePlan[]> {
+        return await $api("/student/course-plans")
     },
 
-    async createCourse(course: any) {
-        return await $api("/admin/course", {
+    async submitMyCoursePlan(): Promise<CoursePlan> {
+        return await $api("/student/course-plan/submit", {
             method: "POST",
-            body: course
         })
     },
 
-    async updateCourse(id: number, course: any) {
-        return await $api(`/admin/course/${id}`, {
+    async cancelMyCoursePlan(id: number) {
+        return await $api(`/student/course-plans/${id}`, {
+            method: "DELETE",
+        })
+    },
+
+    async getPendingCoursePlans(): Promise<CoursePlan[]> {
+        return await $api("/admin/course-plans?status=SUBMITTED")
+    },
+
+    async reviewCoursePlan(
+        id: number,
+        payload: {
+            item_status: CoursePlanItemStatusEnum
+            course_ids?: number[]
+        }
+    ) {
+        return await $api(`/admin/course-plans/${id}/review`, {
             method: "PUT",
-            body: course
+            body: payload,
         })
     },
-
-    async deleteCourse(id: number) {
-        return await $api(`/admin/course/${id}`, {
-            method: "DELETE"
-        })
-    }
 }

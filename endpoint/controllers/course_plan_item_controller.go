@@ -178,23 +178,8 @@ func (cpc CoursePlanItemController) AddToPickedCourses(c *gin.Context) {
 	}
 
 	coursePlanRepo := repositories.CoursePlanRepository{}
-	coursePlans, err := coursePlanRepo.GetAll(claims.UserID)
+	coursePlan, err := coursePlanRepo.GetDraftByStudent(claims.UserID)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"message": err.Error(),
-		})
-		return
-	}
-
-	var coursePlan *models.CoursePlan
-	for i := range coursePlans {
-		if coursePlans[i].Status == constants.CoursePlanDraft {
-			coursePlan = &coursePlans[i]
-			break
-		}
-	}
-
-	if coursePlan == nil {
 		newCoursePlan := models.CoursePlan{
 			StudentID: claims.UserID,
 			Status:    constants.CoursePlanDraft,
@@ -207,7 +192,7 @@ func (cpc CoursePlanItemController) AddToPickedCourses(c *gin.Context) {
 			return
 		}
 
-		coursePlan = &newCoursePlan
+		coursePlan = newCoursePlan
 	}
 
 	repo := repositories.CoursePlanItemRepository{}
@@ -239,6 +224,41 @@ func (cpc CoursePlanItemController) AddToPickedCourses(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, coursePlanItem)
+}
+
+func (cpc CoursePlanItemController) DeleteFromPickedCourses(c *gin.Context) {
+	claimsValue, exists := c.Get("claims")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized"})
+		return
+	}
+
+	claims, ok := claimsValue.(*token.Claims)
+	if !ok || claims.UserRole != constants.RoleStudent {
+		c.JSON(http.StatusForbidden, gin.H{"message": "Forbidden"})
+		return
+	}
+
+	courseID, err := helpers.ParseUintParam(c, "course_id")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid course_id"})
+		return
+	}
+
+	coursePlanRepo := repositories.CoursePlanRepository{}
+	coursePlan, err := coursePlanRepo.GetDraftByStudent(claims.UserID)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"message": "Draft course plan not found"})
+		return
+	}
+
+	repo := repositories.CoursePlanItemRepository{}
+	if err := repo.Delete(coursePlan.ID, courseID); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Course removed"})
 }
 
 func (cpc CoursePlanItemController) Update(c *gin.Context) {

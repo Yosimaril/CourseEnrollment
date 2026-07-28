@@ -34,13 +34,7 @@ func main() {
 		panic(err)
 	}
 
-	//config.DB.AutoMigrate(
-	//	&models.User{},
-	//	&models.Category{},
-	//	&models.Comic{},
-	//	&models.Chapter{},
-	//	&models.ChapterPage{},
-	//)
+	config.DB.AutoMigrate()
 
 	go middleware.CleanupVisitors()
 
