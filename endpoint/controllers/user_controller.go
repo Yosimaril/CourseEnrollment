@@ -4,11 +4,14 @@ import (
 	"errors"
 	"net/http"
 
-	"yosimaril/CourseEnrollment/endpoint/dto"
+	"yosimaril/CourseEnrollment/dto"
 	"yosimaril/CourseEnrollment/i18n"
 	"yosimaril/CourseEnrollment/models"
 	"yosimaril/CourseEnrollment/repositories"
 	"yosimaril/CourseEnrollment/utils/helpers"
+
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 type UserController struct{}
@@ -33,7 +36,7 @@ func (uc UserController) GetAll(c *gin.Context) {
 func (uc UserController) GetByID(c *gin.Context) {
 	lang := helpers.GetLang(c)
 
-	id, err := helpers.ParseUIntParam(c)
+	id, err := helpers.ParseUintParam(c, "id")
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -90,7 +93,7 @@ func (uc UserController) Create(c *gin.Context) {
 func (uc UserController) Update(c *gin.Context) {
 	lang := helpers.GetLang(c)
 
-	id, err := helpers.ParseUIntParam(c)
+	id, err := helpers.ParseUintParam(c, "id")
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -155,7 +158,7 @@ func (uc UserController) Update(c *gin.Context) {
 func (uc UserController) Delete(c *gin.Context) {
 	lang := helpers.GetLang(c)
 
-	id, err := helpers.ParseUIntParam(c)
+	id, err := helpers.ParseUintParam(c, "id")
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{

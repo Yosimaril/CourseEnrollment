@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 
-	"yosimaril/CourseEnrollment/endpoint/dto"
+	"yosimaril/CourseEnrollment/dto"
 	"yosimaril/CourseEnrollment/i18n"
 	"yosimaril/CourseEnrollment/models"
 	"yosimaril/CourseEnrollment/repositories"
@@ -23,7 +23,7 @@ func (cpc CoursePlanItemController) GetAll(c *gin.Context) {
 
 	coursePlanIDStr := c.Query("course_plan_id")
 	if coursePlanIDStr != "" {
-		coursePlanID, err = helpers.ParseUInt(coursePlanIDStr)
+		coursePlanID, err = helpers.ParseUintQuery(c, "course_plan_id")
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"message": i18n.T(lang, "invalid_course_plan_id"),
@@ -34,7 +34,7 @@ func (cpc CoursePlanItemController) GetAll(c *gin.Context) {
 
 	courseIDStr := c.Query("course_id")
 	if courseIDStr != "" {
-		courseID, err = helpers.ParseUInt(courseIDStr)
+		courseID, err = helpers.ParseUintQuery(c, "course_id")
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"message": i18n.T(lang, "invalid_course_id"),
@@ -60,7 +60,7 @@ func (cpc CoursePlanItemController) GetAll(c *gin.Context) {
 func (cpc CoursePlanItemController) GetByID(c *gin.Context) {
 	lang := helpers.GetLang(c)
 
-	coursePlanID, err := helpers.ParseUIntParam(c, "course_plan_id") // Assuming route param is "course_plan_id"
+	coursePlanID, err := helpers.ParseUintParam(c, "course_plan_id")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": i18n.T(lang, "invalid_course_plan_id"),
@@ -68,7 +68,7 @@ func (cpc CoursePlanItemController) GetByID(c *gin.Context) {
 		return
 	}
 
-	courseID, err := helpers.ParseUIntParam(c, "course_id") // Assuming route param is "course_id"
+	courseID, err := helpers.ParseUintParam(c, "course_id")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": i18n.T(lang, "invalid_course_id"),
@@ -78,7 +78,7 @@ func (cpc CoursePlanItemController) GetByID(c *gin.Context) {
 
 	repo := repositories.CoursePlanItemRepository{}
 
-	coursePlanItem, err := repo.GetByID(uint(coursePlanID), uint(courseID))
+	coursePlanItem, err := repo.GetByID(coursePlanID, courseID)
 
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -128,7 +128,7 @@ func (cpc CoursePlanItemController) Create(c *gin.Context) {
 func (cpc CoursePlanItemController) Update(c *gin.Context) {
 	lang := helpers.GetLang(c)
 
-	coursePlanID, err := helpers.ParseUIntParam(c, "course_plan_id")
+	coursePlanID, err := helpers.ParseUintParam(c, "course_plan_id")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": i18n.T(lang, "invalid_course_plan_id"),
@@ -136,7 +136,7 @@ func (cpc CoursePlanItemController) Update(c *gin.Context) {
 		return
 	}
 
-	courseID, err := helpers.ParseUIntParam(c, "course_id")
+	courseID, err := helpers.ParseUintParam(c, "course_id")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": i18n.T(lang, "invalid_course_id"),
@@ -146,7 +146,7 @@ func (cpc CoursePlanItemController) Update(c *gin.Context) {
 
 	repo := repositories.CoursePlanItemRepository{}
 
-	coursePlanItem, err := repo.GetByID(uint(coursePlanID), uint(courseID))
+	coursePlanItem, err := repo.GetByID(coursePlanID, courseID)
 
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -191,7 +191,7 @@ func (cpc CoursePlanItemController) Update(c *gin.Context) {
 func (cpc CoursePlanItemController) Delete(c *gin.Context) {
 	lang := helpers.GetLang(c)
 
-	coursePlanID, err := helpers.ParseUIntParam(c, "course_plan_id")
+	coursePlanID, err := helpers.ParseUintParam(c, "course_plan_id")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": i18n.T(lang, "invalid_course_plan_id"),
@@ -199,7 +199,7 @@ func (cpc CoursePlanItemController) Delete(c *gin.Context) {
 		return
 	}
 
-	courseID, err := helpers.ParseUIntParam(c, "course_id")
+	courseID, err := helpers.ParseUintParam(c, "course_id")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": i18n.T(lang, "invalid_course_id"),
@@ -209,7 +209,7 @@ func (cpc CoursePlanItemController) Delete(c *gin.Context) {
 
 	repo := repositories.CoursePlanItemRepository{}
 
-	if err := repo.Delete(uint(coursePlanID), uint(courseID)); err != nil {
+	if err := repo.Delete(coursePlanID, courseID); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": err.Error(),
 		})

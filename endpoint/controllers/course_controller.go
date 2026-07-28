@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 
-	"yosimaril/CourseEnrollment/endpoint/dto"
+	"yosimaril/CourseEnrollment/dto"
 	"yosimaril/CourseEnrollment/i18n"
 	"yosimaril/CourseEnrollment/models"
 	"yosimaril/CourseEnrollment/repositories"
@@ -36,7 +36,7 @@ func (cc CourseController) GetAll(c *gin.Context) {
 func (cc CourseController) GetByID(c *gin.Context) {
 	lang := helpers.GetLang(c)
 
-	id, err := helpers.ParseUIntParam(c)
+	id, err := helpers.ParseUintParam(c, "id")
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -96,7 +96,7 @@ func (cc CourseController) Create(c *gin.Context) {
 func (cc CourseController) Update(c *gin.Context) {
 	lang := helpers.GetLang(c)
 
-	id, err := helpers.ParseUIntParam(c)
+	id, err := helpers.ParseUintParam(c, "id")
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -155,7 +155,7 @@ func (cc CourseController) Update(c *gin.Context) {
 func (cc CourseController) Delete(c *gin.Context) {
 	lang := helpers.GetLang(c)
 
-	id, err := helpers.ParseUIntParam(c)
+	id, err := helpers.ParseUintParam(c, "id")
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{

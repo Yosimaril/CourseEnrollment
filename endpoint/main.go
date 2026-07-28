@@ -7,6 +7,8 @@ import (
 	"yosimaril/CourseEnrollment/i18n"
 	"yosimaril/CourseEnrollment/middleware"
 	"yosimaril/CourseEnrollment/routes"
+
+	"github.com/joho/godotenv"
 )
 
 func main() {
@@ -25,6 +27,10 @@ func main() {
 	}
 
 	if err := i18n.LoadLanguage("id", "locales/id.json"); err != nil {
+		panic(err)
+	}
+
+	if err := i18n.LoadLanguage("ja", "locales/ja.json"); err != nil {
 		panic(err)
 	}
 

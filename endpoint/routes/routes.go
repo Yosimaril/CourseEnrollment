@@ -3,6 +3,8 @@ package routes
 import (
 	"yosimaril/CourseEnrollment/controllers"
 	"yosimaril/CourseEnrollment/middleware"
+
+	"github.com/gin-gonic/gin"
 )
 
 func SetupRouter() *gin.Engine {
@@ -11,9 +13,15 @@ func SetupRouter() *gin.Engine {
 
 	authController := controllers.AuthController{}
 	userController := controllers.UserController{}
-	courseController := controllers.courseController{}
+	courseController := controllers.CourseController{}
 	coursePlanController := controllers.CoursePlanController{}
 	coursePlanItemController := controllers.CoursePlanItemController{}
+
+	auths := r.Group("/auth")
+	{
+		auths.POST("/login", authController.Login)
+		auths.POST("/register", authController.Register)
+	}
 
 	users := r.Group("/users")
 	{

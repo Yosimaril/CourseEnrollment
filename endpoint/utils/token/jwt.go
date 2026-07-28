@@ -6,16 +6,18 @@ import (
 	"os"
 	"time"
 
-	"yosimaril/CourseEnrollment/models"
+	"yosimaril/CourseEnrollment/constants"
+
+	"github.com/golang-jwt/jwt/v5"
 )
 
 type Claims struct {
-	UserID   uint            `json:"user_id"`
-	UserRole models.UserRole `json:"user_role"`
-	jwt.StandardClaims
+	UserID   uint               `json:"user_id"`
+	UserRole constants.UserRole `json:"user_role"`
+	jwt.RegisteredClaims
 }
 
-func GenerateToken(userID uint, userRole models.UserRole) (string, error) {
+func GenerateToken(userID uint, userRole constants.UserRole) (string, error) {
 	jwtSecret := os.Getenv("JWT_SECRET")
 	if jwtSecret == "" {
 		return "", errors.New("JWT_SECRET environment variable not set")
@@ -25,9 +27,9 @@ func GenerateToken(userID uint, userRole models.UserRole) (string, error) {
 	claims := &Claims{
 		UserID:   userID,
 		UserRole: userRole,
-		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: expirationTime.Unix(),
-			IssuedAt:  time.Now().Unix(),
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(expirationTime),
+			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			Issuer:    "course-enrollment-api",
 		},
 	}

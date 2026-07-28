@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 
-	"yosimaril/CourseEnrollment/endpoint/dto"
+	"yosimaril/CourseEnrollment/dto"
 	"yosimaril/CourseEnrollment/i18n"
 	"yosimaril/CourseEnrollment/models"
 	"yosimaril/CourseEnrollment/repositories"
@@ -18,11 +18,11 @@ type CoursePlanController struct{}
 
 func (cpc CoursePlanController) GetAll(c *gin.Context) {
 	lang := helpers.GetLang(c)
-	studentIDStr := c.Query("student_id")
 	var studentID uint
 
+	studentIDStr := c.Query("student_id")
 	if studentIDStr != "" {
-		parsedID, err := helpers.ParseUInt(studentIDStr)
+		parsedID, err := helpers.ParseUintQuery(c, "student_id")
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"message": i18n.T(lang, "invalid_student_id"),
@@ -49,7 +49,7 @@ func (cpc CoursePlanController) GetAll(c *gin.Context) {
 func (cpc CoursePlanController) GetByID(c *gin.Context) {
 	lang := helpers.GetLang(c)
 
-	id, err := helpers.ParseUIntParam(c)
+	id, err := helpers.ParseUintParam(c, "id")
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -108,7 +108,7 @@ func (cpc CoursePlanController) Create(c *gin.Context) {
 func (cpc CoursePlanController) Update(c *gin.Context) {
 	lang := helpers.GetLang(c)
 
-	id, err := helpers.ParseUIntParam(c)
+	id, err := helpers.ParseUintParam(c, "id")
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -164,7 +164,7 @@ func (cpc CoursePlanController) Update(c *gin.Context) {
 func (cpc CoursePlanController) Delete(c *gin.Context) {
 	lang := helpers.GetLang(c)
 
-	id, err := helpers.ParseUIntParam(c)
+	id, err := helpers.ParseUintParam(c, "id")
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{

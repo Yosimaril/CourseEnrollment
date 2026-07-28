@@ -55,7 +55,7 @@ func (r *CourseRepository) GetAll(name string) ([]models.Course, error) {
 		)
 	}
 
-	return users, nil
+	return courses, nil
 }
 
 func (r *CourseRepository) GetByID(id uint) (models.Course, error) {

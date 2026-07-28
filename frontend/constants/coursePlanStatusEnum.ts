@@ -1,0 +1,7 @@
+export enum CoursePlanStatusEnum {
+    DRAFT = "DRAFT",
+    APPROVED = "APPROVED",
+    PARTIALLY_APPROVED = "PARTIALLY_APPROVED",
+    REJECTED = "REJECTED",
+    SUBMITTED = "SUBMITTED",
+}

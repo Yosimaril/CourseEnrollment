@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d0bfa56a-8301-4e6a-8b0a-fb0571b6f00b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/CourseEnrollment.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/LEARN_Go.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/go.imports.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/constants/course_plan_item_status.go" beforeDir="false" afterPath="$PROJECT_DIR$/endpoint/constants/course_plan_item_status.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/constants/course_plan_status.go" beforeDir="false" afterPath="$PROJECT_DIR$/endpoint/constants/course_plan_status.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/constants/user_role.go" beforeDir="false" afterPath="$PROJECT_DIR$/endpoint/constants/user_role.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/endpoint/controllers/auth_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/endpoint/controllers/auth_controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/endpoint/controllers/course_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/endpoint/controllers/course_controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/endpoint/controllers/course_plan_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/endpoint/controllers/course_plan_controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/endpoint/controllers/course_plan_item_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/endpoint/controllers/course_plan_item_controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/endpoint/controllers/user_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/endpoint/controllers/user_controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/endpoint/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/endpoint/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/endpoint/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/endpoint/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/endpoint/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/endpoint/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/endpoint/models/course_plan.go" beforeDir="false" afterPath="$PROJECT_DIR$/endpoint/models/course_plan.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/endpoint/models/course_plan_item.go" beforeDir="false" afterPath="$PROJECT_DIR$/endpoint/models/course_plan_item.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/endpoint/models/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/endpoint/models/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/endpoint/utils/helpers/lang.go" beforeDir="false" afterPath="$PROJECT_DIR$/endpoint/utils/helpers/lang.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/endpoint/utils/helpers/request.go" beforeDir="false" afterPath="$PROJECT_DIR$/endpoint/utils/helpers/request.go" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_C:/Users/BrokenChord/Documents/GitHub/CourseEnrollment" value="3H7Aumv7WiCbC7PoFGwoImb7tvo" />
+      <entry key="_C:/Users/BrokenChord/Documents/GitHub/LEARN_Go" value="3H4MNRrt473mJoVobKxfEx1Kifn" />
+    </persistenceIdMap>
+  </component>
+  <component name="GOROOT" url="file://$PROJECT_DIR$/../../../../../Program Files/Go" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6,
+  &quot;fromUser&quot;: false
+}</component>
+  <component name="ProjectId" id="3H4MNRrt473mJoVobKxfEx1Kifn" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.GoLinterPluginOnboardingV2&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.GoLinterPluginStorageMigration&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.analysis.ui.options.defaults&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;copilot.chat.legacySessionMetadata.migrated&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/BrokenChord/Documents/GitHub/CourseEnrollment/database&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.appearance&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\BrokenChord\Documents\GitHub\CourseEnrollment\database" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\BrokenChord\Documents\GitHub\CourseEnrollment\endpoint" />
+      <recent name="C:\Users\BrokenChord\Documents\GitHub\CourseEnrollment\endpoint\utils" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="LEARN_Go" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
+      <module name="LEARN_Go" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="DIRECTORY" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-gosdk-72a9cf600ed8-3dd3895e5e08-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-261.23567.143" />
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-GO-261.23567.143" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d0bfa56a-8301-4e6a-8b0a-fb0571b6f00b" name="Changes" comment="" />
+      <created>1785122847542</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1785122847542</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

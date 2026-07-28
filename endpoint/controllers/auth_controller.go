@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 
-	"yosimaril/CourseEnrollment/endpoint/dto"
+	"yosimaril/CourseEnrollment/dto"
 	"yosimaril/CourseEnrollment/i18n"
 	"yosimaril/CourseEnrollment/models"
 	"yosimaril/CourseEnrollment/repositories"
