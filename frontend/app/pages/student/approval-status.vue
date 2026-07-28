@@ -126,6 +126,4 @@ async function cancelPlan(id: number) {
         pendingCancelIds.value = pendingCancelIds.value.filter((planId) => planId !== id)
     }
 }
-</script><template>
-  <h1>Lorem ipsum</h1>
-</template>
+</script>

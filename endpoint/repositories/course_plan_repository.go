@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"strings"
 	"yosimaril/CourseEnrollment/config"
 	"yosimaril/CourseEnrollment/constants"
 	"yosimaril/CourseEnrollment/models"
@@ -18,7 +19,14 @@ func (r *CoursePlanRepository) GetAll(studentID uint, status string) ([]models.C
 		db = db.Where("student_id = ?", studentID)
 	}
 	if status != "" {
-		db = db.Where("status = ?", status)
+		if status == "PENDING_REVIEW" {
+			db = db.Where("status IN ?", []constants.CoursePlanStatus{constants.CoursePlanSubmitted, constants.CoursePlanPartiallyApproved})
+		} else if strings.Contains(status, ",") {
+			parts := strings.Split(status, ",")
+			db = db.Where("status IN ?", parts)
+		} else {
+			db = db.Where("status = ?", status)
+		}
 	}
 
 	result := db.Find(&coursePlans)

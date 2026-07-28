@@ -14,7 +14,6 @@ import (
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
 
-	// Global middleware
 	r.Use(cors.New(cors.Config{
 		AllowOrigins: []string{
 			"http://localhost:3000",
@@ -44,7 +43,6 @@ func SetupRouter() *gin.Engine {
 	courseController := controllers.CourseController{}
 	coursePlanController := controllers.CoursePlanController{}
 	coursePlanItemController := controllers.CoursePlanItemController{}
-	// studentController := controllers.NewStudentController(studentService) // This line is not needed here, studentHandler is passed directly
 
 	auths := r.Group("/auth")
 	{

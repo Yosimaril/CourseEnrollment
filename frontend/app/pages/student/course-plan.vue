@@ -19,19 +19,22 @@
             </div>
 
             <p v-if="isLoading" class="mt-8 text-slate-600">Loading course plan...</p>
+            <p v-else-if="successMessage" class="mt-8 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-emerald-700">
+                {{ successMessage }}
+            </p>
             <p v-else-if="errorMessage" class="mt-8 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-red-700">
                 {{ errorMessage }}
             </p>
 
             <div v-else>
-                <div v-if="!coursePlan || coursePlan.items.length === 0" class="mt-8 rounded-md border border-slate-200 bg-slate-50 p-5 text-slate-600">
+                <div v-if="!coursePlan || courseItems.length === 0" class="mt-8 rounded-md border border-slate-200 bg-slate-50 p-5 text-slate-600">
                     Your basket is empty. Pick courses first.
                 </div>
 
                 <div v-else class="mt-8 grid gap-4 xl:grid-cols-[minmax(0,1fr)_18rem]">
                     <div class="grid gap-4">
                         <article
-                            v-for="item in coursePlan.items"
+                            v-for="item in courseItems"
                             :key="`${item.coursePlanId}-${item.courseId}`"
                             class="rounded-md border border-slate-200 bg-slate-50 p-5"
                         >
@@ -63,14 +66,12 @@
                     <aside class="rounded-md border border-slate-200 bg-slate-50 p-5">
                         <p class="text-sm font-bold uppercase tracking-[0.08em] text-slate-600">Summary</p>
                         <p class="mt-3 text-3xl font-bold text-slate-900">{{ totalCredits }} credits</p>
-                        <p class="mt-2 text-sm text-slate-600">
-                            {{ coursePlan.items.length }} course{{ coursePlan.items.length === 1 ? "" : "s" }} in basket
-                        </p>
+                        <p class="mt-2 text-sm text-slate-600">{{ courseItems.length }} course{{ courseItems.length === 1 ? "" : "s" }} in basket</p>
 
                         <button
                             type="button"
                             class="mt-6 w-full rounded-md bg-blue-900 px-4 py-2 font-semibold text-white transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-75"
-                            :disabled="isSubmitting || coursePlan.items.length === 0"
+                            :disabled="isSubmitting || courseItems.length === 0"
                             @click="submitPlan"
                         >
                             {{ isSubmitting ? "Submitting..." : "Submit for approval" }}
@@ -95,12 +96,15 @@ definePageMeta({
 const coursePlan = ref<CoursePlan | null>(null)
 const isLoading = ref(true)
 const isSubmitting = ref(false)
+const successMessage = ref("")
 const errorMessage = ref("")
 const pendingDeleteIds = ref<number[]>([])
 
 const totalCredits = computed(() => {
-    return coursePlan.value?.items.reduce((sum, item) => sum + (item.course?.credits ?? 0), 0) ?? 0
+    return courseItems.value.reduce((sum, item) => sum + (item.course?.credits ?? 0), 0)
 })
+
+const courseItems = computed(() => coursePlan.value?.items ?? [])
 
 onMounted(async () => {
     try {
@@ -135,16 +139,16 @@ async function removeItem(courseId: number) {
 async function submitPlan() {
     isSubmitting.value = true
     errorMessage.value = ""
+    successMessage.value = ""
 
     try {
-        const response = await CoursePlanService.submitMyCoursePlan()
-        coursePlan.value = response
+        await CoursePlanService.submitMyCoursePlan()
+        coursePlan.value = null
+        successMessage.value = "Course plan submitted for approval."
     } catch (error) {
         errorMessage.value = extractErrorMessage(error, "Unable to submit course plan right now.")
     } finally {
         isSubmitting.value = false
     }
 }
-</script><template>
-  <h1>Lorem ipsum</h1>
-</template>
+</script>

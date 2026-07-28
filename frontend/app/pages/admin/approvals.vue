@@ -54,7 +54,7 @@
                                 type="button"
                                 class="inline-flex min-h-11 items-center justify-center rounded-md bg-blue-900 px-4 py-2 font-semibold text-white transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-75"
                                 :disabled="pendingActions.has(actionKey(plan.id, 'approve-all'))"
-                                @click="reviewPlan(plan.id, 'APPROVED')"
+                                @click="reviewPlan(plan.id, CoursePlanItemStatusEnum.APPROVED)"
                             >
                                 Approve all
                             </button>
@@ -62,7 +62,7 @@
                                 type="button"
                                 class="inline-flex min-h-11 items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 font-semibold text-slate-900 transition hover:border-blue-900 disabled:cursor-not-allowed disabled:opacity-75"
                                 :disabled="pendingActions.has(actionKey(plan.id, 'reject-all'))"
-                                @click="reviewPlan(plan.id, 'REJECTED')"
+                                @click="reviewPlan(plan.id, CoursePlanItemStatusEnum.REJECTED)"
                             >
                                 Reject all
                             </button>
@@ -90,7 +90,7 @@
                                     type="button"
                                     class="inline-flex flex-1 min-h-11 items-center justify-center rounded-md bg-blue-900 px-4 py-2 font-semibold text-white transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-75"
                                     :disabled="pendingActions.has(actionKey(plan.id, `approve-${item.courseId}`))"
-                                    @click="reviewPlan(plan.id, 'APPROVED', [item.courseId])"
+                                    @click="reviewPlan(plan.id, CoursePlanItemStatusEnum.APPROVED, [item.courseId])"
                                 >
                                     Approve
                                 </button>
@@ -98,7 +98,7 @@
                                     type="button"
                                     class="inline-flex flex-1 min-h-11 items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 font-semibold text-slate-900 transition hover:border-blue-900 disabled:cursor-not-allowed disabled:opacity-75"
                                     :disabled="pendingActions.has(actionKey(plan.id, `reject-${item.courseId}`))"
-                                    @click="reviewPlan(plan.id, 'REJECTED', [item.courseId])"
+                                    @click="reviewPlan(plan.id, CoursePlanItemStatusEnum.REJECTED, [item.courseId])"
                                 >
                                     Reject
                                 </button>
@@ -127,6 +127,10 @@ const errorMessage = ref("")
 const pendingActions = ref(new Set<string>())
 
 onMounted(async () => {
+    await fetchPlans()
+})
+
+async function fetchPlans() {
     try {
         const response = await CoursePlanService.getPendingCoursePlans()
         plans.value = Array.isArray(response) ? response : []
@@ -135,7 +139,7 @@ onMounted(async () => {
     } finally {
         isLoading.value = false
     }
-})
+}
 
 function actionKey(planId: number, action: string) {
     return `${planId}:${action}`
@@ -158,7 +162,7 @@ async function reviewPlan(planId: number, itemStatus: CoursePlanItemStatusEnum, 
             course_ids: courseIds,
         })
 
-        plans.value = plans.value.filter((plan) => plan.id !== planId)
+        await fetchPlans()
     } catch (error) {
         errorMessage.value = extractErrorMessage(error, "Unable to update this approval right now.")
     } finally {
@@ -166,6 +170,4 @@ async function reviewPlan(planId: number, itemStatus: CoursePlanItemStatusEnum, 
         pendingActions.value = new Set(pendingActions.value)
     }
 }
-</script><template>
-  <h1>Lorem ipsum</h1>
-</template>
+</script>

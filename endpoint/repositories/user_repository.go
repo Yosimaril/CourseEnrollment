@@ -64,7 +64,7 @@ func (r *UserRepository) GetAll(username string, role string) ([]models.User, er
 	return users, nil
 }
 
-func (r *UserRepository) GetByID(id uint) (models.User, error) { // Corrected return type from models.user to models.User
+func (r *UserRepository) GetByID(id uint) (models.User, error) {
 	var user models.User
 
 	cacheKey := fmt.Sprintf("user:%d", id)
@@ -133,11 +133,11 @@ func (r *UserRepository) GetByEmail(email string) (models.User, error) {
 	return user, result.Error
 }
 
-func (r *UserRepository) Create(user *models.User) error { // Corrected parameter name from category to user
+func (r *UserRepository) Create(user *models.User) error { 
 	return config.DB.Create(user).Error
 }
 
-func (r *UserRepository) Update(user *models.User) error { // Corrected parameter name from category to user
+func (r *UserRepository) Update(user *models.User) error { 
 	return config.DB.Updates(user).Error
 }
 

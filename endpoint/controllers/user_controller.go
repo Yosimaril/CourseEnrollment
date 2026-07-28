@@ -146,7 +146,7 @@ func (uc UserController) Update(c *gin.Context) {
 		user.MaxCredits = request.MaxCredits
 	}
 
-	if err := repo.Update(&user); err != nil { // Corrected model
+	if err := repo.Update(&user); err != nil { 
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": err.Error(),
 		})
