@@ -104,8 +104,17 @@ func (ac AuthController) Register(c *gin.Context) {
 		return
 	}
 
+	tokenString, err := token.GenerateToken(user.ID, user.Role)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": i18n.T(lang, "failed_to_generate_token"),
+		})
+		return
+	}
+
 	c.JSON(http.StatusCreated, gin.H{
 		"message": i18n.T(lang, "registration_successful"),
 		"user":    user,
+		"token":   tokenString,
 	})
 }
