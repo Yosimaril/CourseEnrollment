@@ -5,5 +5,21 @@
   "invalid_id": "無効なIDです",
   "internal_server_error": "サーバー内部エラー",
   "category_deleted": "カテゴリが正常に削除されました",
-  "too_many_requests": "過度なリクエスト"
+  "too_many_requests": "過度なリクエスト",
+  "user_deleted": "ユーザーが正常に削除されました",
+  "invalid_credentials": "メールアドレスまたはパスワードが無効です",
+  "failed_to_generate_token": "認証トークンの生成に失敗しました",
+  "login_successful": "ログイン成功",
+  "email_already_registered": "このメールアドレスは既に登録されています",
+  "failed_to_hash_password": "パスワードのハッシュ化に失敗しました",
+  "registration_successful": "登録成功",
+  "course_not_found": "コースが見つかりません",
+  "course_deleted": "コースが正常に削除されました",
+  "invalid_student_id": "無効な学生IDです",
+  "course_plan_not_found": "履修計画が見つかりません",
+  "course_plan_deleted": "履修計画が正常に削除されました",
+  "invalid_course_plan_id": "無効な履修計画IDです",
+  "invalid_course_id": "無効なコースIDです",
+  "course_plan_item_not_found": "履修計画項目が見つかりません",
+  "course_plan_item_deleted": "履修計画項目が正常に削除されました"
 }

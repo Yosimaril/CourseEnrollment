@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"yosimaril/CourseEnrollment/config"
 	"yosimaril/CourseEnrollment/i18n"
 	"yosimaril/CourseEnrollment/middleware"
@@ -9,6 +10,10 @@ import (
 )
 
 func main() {
+	if err := godotenv.Load(); err != nil {
+		log.Println("No .env file found, loading environment variables from system.")
+	}
+
 	config.ConnectDatabase()
 	config.ConnectRedis()
 	config.DB = config.DB.Debug()

@@ -58,20 +58,80 @@ func (r *UserRepository) GetAll(username string) ([]models.User, error) {
 	return users, nil
 }
 
-func (r *UserRepository) GetByID(id uint) (models.user, error) {
+func (r *UserRepository) GetByID(id uint) (models.User, error) { // Corrected return type from models.user to models.User
 	var user models.User
+
+	cacheKey := fmt.Sprintf("user:%d", id)
+	cached, err := config.Redis.Get(config.Ctx, cacheKey).Result()
+
+	if err == nil {
+		fmt.Println("[Redis] CACHE HIT")
+		if err := json.Unmarshal([]byte(cached), &user); err == nil {
+			return user, nil
+		}
+	}
+
+	fmt.Println("[Redis] CACHE MISS")
 
 	result := config.DB.
 		First(&user, "id = ?", id)
 
+	if result.Error != nil {
+		return user, result.Error
+	}
+
+	data, err := json.Marshal(user)
+	if err == nil {
+		config.Redis.Set(
+			config.Ctx,
+			cacheKey,
+			data,
+			time.Minute,
+		)
+	}
+
 	return user, result.Error
 }
 
-func (r *UserRepository) Create(category *models.User) error {
+func (r *UserRepository) GetByEmail(email string) (models.User, error) {
+	var user models.User
+
+	cacheKey := "user:email:" + email
+	cached, err := config.Redis.Get(config.Ctx, cacheKey).Result()
+
+	if err == nil {
+		fmt.Println("[Redis] CACHE HIT")
+		if err := json.Unmarshal([]byte(cached), &user); err == nil {
+			return user, nil
+		}
+	}
+
+	fmt.Println("[Redis] CACHE MISS")
+
+	result := config.DB.Where("email = ?", email).First(&user)
+
+	if result.Error != nil {
+		return user, result.Error
+	}
+
+	data, err := json.Marshal(user)
+	if err == nil {
+		config.Redis.Set(
+			config.Ctx,
+			cacheKey,
+			data,
+			time.Minute,
+		)
+	}
+
+	return user, result.Error
+}
+
+func (r *UserRepository) Create(user *models.User) error { // Corrected parameter name from category to user
 	return config.DB.Create(user).Error
 }
 
-func (r *UserRepository) Update(category *models.User) error {
+func (r *UserRepository) Update(user *models.User) error { // Corrected parameter name from category to user
 	return config.DB.Updates(user).Error
 }
 

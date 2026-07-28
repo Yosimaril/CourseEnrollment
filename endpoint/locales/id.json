@@ -5,5 +5,21 @@
   "invalid_id": "ID tidak valid",
   "internal_server_error": "Terjadi kesalahan pada server",
   "category_deleted": "Kategori berhasil dihapus",
-  "too_many_requests": "Terlalu banyak permintaan"
+  "too_many_requests": "Terlalu banyak permintaan",
+  "user_deleted": "Pengguna berhasil dihapus",
+  "invalid_credentials": "Email atau kata sandi tidak valid",
+  "failed_to_generate_token": "Gagal membuat token autentikasi",
+  "login_successful": "Login berhasil",
+  "email_already_registered": "Email sudah terdaftar",
+  "failed_to_hash_password": "Gagal mengenkripsi kata sandi",
+  "registration_successful": "Registrasi berhasil",
+  "course_not_found": "Mata kuliah tidak ditemukan",
+  "course_deleted": "Mata kuliah berhasil dihapus",
+  "invalid_student_id": "ID mahasiswa tidak valid",
+  "course_plan_not_found": "Rencana studi tidak ditemukan",
+  "course_plan_deleted": "Rencana studi berhasil dihapus",
+  "invalid_course_plan_id": "ID rencana studi tidak valid",
+  "invalid_course_id": "ID mata kuliah tidak valid",
+  "course_plan_item_not_found": "Item rencana studi tidak ditemukan",
+  "course_plan_item_deleted": "Item rencana studi berhasil dihapus"
 }
