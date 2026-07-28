@@ -1,58 +1,38 @@
 package repositories
 
 import (
-	"encoding/json"
-	"fmt"
-	"time"
-
+	"strings"
 	"yosimaril/CourseEnrollment/config"
+	"yosimaril/CourseEnrollment/constants"
 	"yosimaril/CourseEnrollment/models"
 )
 
 type CoursePlanRepository struct{}
 
-func (r *CoursePlanRepository) GetAll(studentID uint) ([]models.CoursePlan, error) {
+func (r *CoursePlanRepository) GetAll(studentID uint, status string) ([]models.CoursePlan, error) {
 	var coursePlans []models.CoursePlan
 
-	cacheKey := "course_plan"
-
-	if studentID != 0 {
-		cacheKey += ":" + fmt.Sprintf("%d", studentID)
-	}
-
-	cached, err := config.Redis.Get(config.Ctx, cacheKey).Result()
-
-	if err == nil {
-		fmt.Println("[Redis] CACHE HIT")
-
-		if err := json.Unmarshal([]byte(cached), &coursePlans); err == nil {
-			return coursePlans, nil
-		}
-	}
-
-	fmt.Println("[Redis] CACHE MISS")
-
 	db := config.DB
+	db = db.Preload("Student").Preload("Items.Course").Order("created_at desc")
 
 	if studentID != 0 {
 		db = db.Where("student_id = ?", studentID)
+	}
+	if status != "" {
+		if status == "PENDING_REVIEW" {
+			db = db.Where("status IN ?", []constants.CoursePlanStatus{constants.CoursePlanSubmitted, constants.CoursePlanPartiallyApproved})
+		} else if strings.Contains(status, ",") {
+			parts := strings.Split(status, ",")
+			db = db.Where("status IN ?", parts)
+		} else {
+			db = db.Where("status = ?", status)
+		}
 	}
 
 	result := db.Find(&coursePlans)
 
 	if result.Error != nil {
 		return nil, result.Error
-	}
-
-	data, err := json.Marshal(coursePlans)
-
-	if err == nil {
-		config.Redis.Set(
-			config.Ctx,
-			cacheKey,
-			data,
-			time.Minute,
-		)
 	}
 
 	return coursePlans, nil
@@ -62,7 +42,22 @@ func (r *CoursePlanRepository) GetByID(id uint) (models.CoursePlan, error) {
 	var coursePlan models.CoursePlan
 
 	result := config.DB.
+		Preload("Student").
+		Preload("Items.Course").
 		First(&coursePlan, "id = ?", id)
+
+	return coursePlan, result.Error
+}
+
+func (r *CoursePlanRepository) GetDraftByStudent(studentID uint) (models.CoursePlan, error) {
+	var coursePlan models.CoursePlan
+
+	result := config.DB.
+		Preload("Student").
+		Preload("Items.Course").
+		Where("student_id = ? AND status = ?", studentID, constants.CoursePlanDraft).
+		Order("created_at desc").
+		First(&coursePlan)
 
 	return coursePlan, result.Error
 }

@@ -106,12 +106,13 @@
 import { CourseService } from "~/services/course"
 import type { Course } from "~/models/course"
 import { extractErrorMessage } from "~/utils/auth"
-import Modal from "~/components/Modal.vue" // Import the Modal component
+import Modal from "~/components/Modal.vue" 
 
 definePageMeta({
   middleware: ["auth", "admin"],
 })
 
+const route = useRoute()
 const courses = ref<Course[]>([])
 const isLoading = ref(true)
 const errorMessage = ref("")
@@ -124,6 +125,13 @@ const submitErrorMessage = ref("")
 onMounted(async () => {
   await fetchCourses()
 })
+
+watch(
+  () => route.query.refresh,
+  async () => {
+    await fetchCourses()
+  }
+)
 
 async function fetchCourses() {
   isLoading.value = true
@@ -140,7 +148,7 @@ async function fetchCourses() {
 
 function confirmDelete(course: Course) {
   courseToDelete.value = course
-  submitErrorMessage.value = "" // Clear previous errors
+  submitErrorMessage.value = "" 
   isModalOpen.value = true
 }
 
@@ -159,7 +167,7 @@ async function deleteCourse() {
 
   try {
     await CourseService.deleteCourse(courseToDelete.value.id)
-    await fetchCourses() // Refresh the list after deletion
+    await fetchCourses() 
     closeModal()
   } catch (error) {
     submitErrorMessage.value = extractErrorMessage(error, "Unable to delete course right now.")

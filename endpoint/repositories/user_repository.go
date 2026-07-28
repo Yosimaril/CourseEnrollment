@@ -11,13 +11,16 @@ import (
 
 type UserRepository struct{}
 
-func (r *UserRepository) GetAll(username string) ([]models.User, error) {
+func (r *UserRepository) GetAll(username string, role string) ([]models.User, error) {
 	var users []models.User
 
 	cacheKey := "user"
 
 	if username != "" {
 		cacheKey += ":" + username
+	}
+	if role != "" {
+		cacheKey += ":" + role
 	}
 
 	cached, err := config.Redis.Get(config.Ctx, cacheKey).Result()
@@ -36,6 +39,9 @@ func (r *UserRepository) GetAll(username string) ([]models.User, error) {
 
 	if username != "" {
 		db = db.Where("username LIKE ?", "%"+username+"%")
+	}
+	if role != "" {
+		db = db.Where("role = ?", role)
 	}
 
 	result := db.Find(&users)
@@ -58,7 +64,7 @@ func (r *UserRepository) GetAll(username string) ([]models.User, error) {
 	return users, nil
 }
 
-func (r *UserRepository) GetByID(id uint) (models.User, error) { // Corrected return type from models.user to models.User
+func (r *UserRepository) GetByID(id uint) (models.User, error) {
 	var user models.User
 
 	cacheKey := fmt.Sprintf("user:%d", id)
@@ -127,11 +133,11 @@ func (r *UserRepository) GetByEmail(email string) (models.User, error) {
 	return user, result.Error
 }
 
-func (r *UserRepository) Create(user *models.User) error { // Corrected parameter name from category to user
+func (r *UserRepository) Create(user *models.User) error { 
 	return config.DB.Create(user).Error
 }
 
-func (r *UserRepository) Update(user *models.User) error { // Corrected parameter name from category to user
+func (r *UserRepository) Update(user *models.User) error { 
 	return config.DB.Updates(user).Error
 }
 

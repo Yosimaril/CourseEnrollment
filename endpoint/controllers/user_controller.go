@@ -18,10 +18,11 @@ type UserController struct{}
 
 func (uc UserController) GetAll(c *gin.Context) {
 	username := c.Query("username")
+	role := c.Query("role")
 
 	repo := repositories.UserRepository{}
 
-	users, err := repo.GetAll(username)
+	users, err := repo.GetAll(username, role)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -145,7 +146,7 @@ func (uc UserController) Update(c *gin.Context) {
 		user.MaxCredits = request.MaxCredits
 	}
 
-	if err := repo.Update(&user); err != nil { // Corrected model
+	if err := repo.Update(&user); err != nil { 
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": err.Error(),
 		})

@@ -14,7 +14,6 @@ import (
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
 
-	// Global middleware
 	r.Use(cors.New(cors.Config{
 		AllowOrigins: []string{
 			"http://localhost:3000",
@@ -73,6 +72,15 @@ func SetupRouter() *gin.Engine {
 		admin := api.Group("/admin")
 		admin.Use(middleware.RequireRole(constants.RoleAdmin))
 		{
+			adminStudents := admin.Group("/students")
+			{
+				adminStudents.GET("", userController.GetAll)
+				adminStudents.GET("/:id", userController.GetByID)
+				adminStudents.POST("", userController.Create)
+				adminStudents.PUT("/:id", userController.Update)
+				adminStudents.DELETE("/:id", userController.Delete)
+			}
+
 			adminCourses := admin.Group("/courses")
 			{
 				adminCourses.GET("", courseController.GetAll)
@@ -80,6 +88,12 @@ func SetupRouter() *gin.Engine {
 				adminCourses.POST("", courseController.Create)
 				adminCourses.PUT("/:id", courseController.Update)
 				adminCourses.DELETE("/:id", courseController.Delete)
+			}
+
+			adminCoursePlans := admin.Group("/course-plans")
+			{
+				adminCoursePlans.GET("", coursePlanController.GetAll)
+				adminCoursePlans.PUT("/:id/review", coursePlanController.ReviewCoursePlan)
 			}
 		}
 
@@ -104,6 +118,11 @@ func SetupRouter() *gin.Engine {
 		student := api.Group("/student")
 		student.Use(middleware.RequireRole(constants.RoleStudent))
 		{
+			student.GET("/course-plan", coursePlanController.GetCurrentStudentPlan)
+			student.GET("/course-plans", coursePlanController.GetMyHistory)
+			student.POST("/course-plan/submit", coursePlanController.SubmitCurrentStudentPlan)
+			student.DELETE("/course-plans/:id", coursePlanController.CancelStudentCoursePlan)
+			student.DELETE("/course-plan-items/:course_id", coursePlanItemController.DeleteFromPickedCourses)
 			student.POST("/picked-courses", coursePlanItemController.AddToPickedCourses)
 		}
 	}

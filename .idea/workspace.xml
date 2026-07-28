@@ -5,18 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0bfa56a-8301-4e6a-8b0a-fb0571b6f00b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/endpoint/dto/student_dto.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/endpoint/models/student.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/endpoint/repositories/student_repository.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/app/components/Modal.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/handler/student_handler.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/model/student.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/repository/student_repository.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/service/student_service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pages/admin/courses/[id]/delete.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pages/admin/courses/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pages/admin/courses/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/endpoint/repositories/course_plan_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/endpoint/repositories/course_plan_repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/app/pages/admin/approvals.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pages/admin/approvals.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/app/services/coursePlan.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/services/coursePlan.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

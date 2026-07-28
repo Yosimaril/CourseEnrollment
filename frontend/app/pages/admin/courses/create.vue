@@ -93,7 +93,7 @@ async function submitCreate() {
       credits: Number(form.credits),
     })
 
-    await navigateTo("/admin/courses")
+    await navigateTo({ path: "/admin/courses", query: { refresh: Date.now().toString() } })
   } catch (error) {
     errorMessage.value = extractErrorMessage(error, "Unable to create course right now.")
   } finally {

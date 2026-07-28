@@ -113,7 +113,7 @@ async function submitUpdate() {
       credits: Number(form.credits),
     })
 
-    await navigateTo("/admin/courses")
+    await navigateTo({ path: "/admin/courses", query: { refresh: Date.now().toString() } })
   } catch (error) {
     submitErrorMessage.value = extractErrorMessage(error, "Unable to update course right now.")
   } finally {
