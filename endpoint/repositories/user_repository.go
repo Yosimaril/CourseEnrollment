@@ -133,11 +133,11 @@ func (r *UserRepository) GetByEmail(email string) (models.User, error) {
 	return user, result.Error
 }
 
-func (r *UserRepository) Create(user *models.User) error { 
+func (r *UserRepository) Create(user *models.User) error {
 	return config.DB.Create(user).Error
 }
 
-func (r *UserRepository) Update(user *models.User) error { 
+func (r *UserRepository) Update(user *models.User) error {
 	return config.DB.Updates(user).Error
 }
 
