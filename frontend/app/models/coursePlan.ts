@@ -1,4 +1,4 @@
-import { BaseModel } from "./baseModel"
+import type { BaseModel } from "./baseModel"
 import { CoursePlanStatusEnum } from "../constants/coursePlanStatusEnum"
 import type { CoursePlanItem } from "./coursePlanItem"
 import type { User } from "./user"

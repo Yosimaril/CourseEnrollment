@@ -1,4 +1,4 @@
-import { BaseModel } from "./baseModel.ts"
+import type { BaseModel } from "./baseModel.ts"
 
 export interface Course extends BaseModel {
     id: number
