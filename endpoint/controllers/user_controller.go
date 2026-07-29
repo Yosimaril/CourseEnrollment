@@ -11,6 +11,7 @@ import (
 	"yosimaril/CourseEnrollment/utils/helpers"
 
 	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -70,10 +71,18 @@ func (uc UserController) Create(c *gin.Context) {
 		return
 	}
 
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(request.Password), bcrypt.DefaultCost)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
 	user := models.User{
 		Username:   request.Username,
 		Email:      request.Email,
-		Password:   request.Password,
+		Password:   string(hashedPassword),
 		Role:       request.Role,
 		Nrp:        request.Nrp,
 		MaxCredits: request.MaxCredits,
