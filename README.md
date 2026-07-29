@@ -1,6 +1,6 @@
 <header id="readme-top">
   <div align="center">
-    <img src="https://placehold.co/640x640/000000/FFFFFF?font=Open%20Sans&text=Course Enrollment" alt="Logo" width="80" height="80">
+    <img src="https://placehold.co/640x640/000000/FFFFFF?font=Open%20Sans&text=Course\nEnrollment" alt="Logo" width="80" height="80">
     <h1>CourseEnrollment*</h1>
     <p><i>*The name is used solely as a project identifier. Any resemblance to existing names, trademarks, brands, or copyrighted works is unintentional. All rights remain with their respective owners.</i></p>
     <p>A simple app for learning Go and Nuxt.</p>
@@ -312,7 +312,7 @@ The frontend can then consume the same base URL from the Nuxt client.
   </p>
 
   <p align="center">
-    Admin review and approval flow
+    Admin review and approval
   </p>
 
   <br />
@@ -363,7 +363,7 @@ The frontend can then consume the same base URL from the Nuxt client.
   <table>
     <thead>
       <tr>
-        <th>Action</th>
+        <th>Title</th>
         <th>Method</th>
         <th>Auth</th>
         <th>Description</th>
