@@ -1,11 +1,11 @@
 <header id="readme-top">
   <div align="center">
     <img src="https://placehold.co/640x640/000000/FFFFFF?font=Open%20Sans&text=Course Enrollment" alt="Logo" width="80" height="80">
-    <h1>Komiku*</h1>
+    <h1>CourseEnrollment*</h1>
     <p><i>*The name is used solely as a project identifier. Any resemblance to existing names, trademarks, brands, or copyrighted works is unintentional. All rights remain with their respective owners.</i></p>
-    <p>An app to read comic.</p>
+    <p>A simple app for learning Go and Nuxt.</p>
     <p>
-      Komiku is a mobile application designed for comic enthusiasts to browse, read, and interact with their favorite comics.
+      CourseEnrollment is a course planning and enrollment practice project built to explore a Go API, a Nuxt frontend, Redis caching, and JWT-based authentication.
     </p>
     <a href="#installation">Installation</a>
     &middot;
@@ -15,13 +15,10 @@
     &middot;
     <a href="#api">API</a>
     <br><br>
-    <!-- Vue -->
-    <!-- Nuxt -->
-    <!-- Go -->
-    <!-- Gorm -->
-    <!-- Gin -->
-    <!-- Redis -->
-    <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL Badge" />
+    <img src="https://img.shields.io/badge/Nuxt-00DC82?style=for-the-badge&logo=nuxt&logoColor=white" alt="Nuxt Badge" />
+    <img src="https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white" alt="Go Badge" />
+    <img src="https://img.shields.io/badge/Gin-000000?style=for-the-badge&logo=gin&logoColor=white" alt="Gin Badge" />
+    <img src="https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white" alt="Redis Badge" />
     <img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white" alt="JWT Badge" />
   </div>
 </header>
@@ -40,7 +37,6 @@
     <li><a href="#demo">Demo</a></li>
     <li><a href="#api">API</a></li>
     <li><a href="#license">License</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -49,10 +45,10 @@
     <h2>Overview</h2>
   </header>
   <p>
-    Komiku is a feature-rich comic reading application that provides a seamless experience for users to discover and enjoy comics. It includes functionalities such as user registration, comic categorization, chapter-based reading, and a community interaction system through comments and ratings.
+    CourseEnrollment is a compact learning project for practicing full-stack development with Go and Nuxt. It focuses on the core flow of browsing courses, building a course plan, and handling role-based access for students and administrators.
   </p>
   <p>
-    The project is built using Flutter for the mobile app and a PHP-based backend, demonstrating a full-stack integration with state management and real-time data fetching.
+    The backend uses Gin, Redis, and JWT to keep the API fast and secure, while the frontend uses Nuxt to present a clean interface for course management and enrollment workflows.
   </p>
   <p align="right"><a href="#readme-top">Back to top</a></p>
 </section>
@@ -63,24 +59,29 @@
 
 ## Structure
 
-<pre><code>komiku/
-├── lib/
-│   ├── components/        # Reusable UI widgets
-│   ├── models/            # Data models
-│   ├── screens/           # App screens
-│   ├── provider/          # State management providers
-│   ├── services/          # API services
-│   ├── static/            # Static constants
-│   ├── style/             # Theme and styling
-│   └── main.dart          # Entry point
-├── assets/                # Images and fonts
-├── server/                # PHP Backend
-│   ├── database/          # Database migrations and seeds
-│   └── endpoint/          # API endpoints
+<pre><code>CourseEnrollment/
+├── frontend/
+│   ├── app/
+│   │   ├── components/    # Reusable UI components
+│   │   ├── layouts/       # Nuxt layouts
+│   │   ├── middleware/    # Route guards
+│   │   ├── pages/         # Application pages
+│   │   ├── plugins/       # Nuxt plugins
+│   │   ├── services/      # Client-side API wrappers
+│   │   └── utils/         # Frontend helpers
+│   ├── public/            # Static assets
+│   └── nuxt.config.ts     # Nuxt configuration
+├── endpoint/
+│   ├── controllers/       # HTTP handlers
+│   ├── middleware/        # Gin middleware
+│   ├── models/            # Domain models
+│   ├── repositories/      # Data access and caching
+│   ├── routes/            # Route definitions
+│   └── services/          # Business logic
+├── database/              # SQL schema and sample data
 └── README.md</code></pre>
 <p>
-  The project follows a modular Flutter directory structure, separating UI components, 
-  business logic, and data models to maintain a clean and scalable codebase.
+  The project keeps the frontend and backend separated so each side can be developed independently while still sharing the same course enrollment domain.
 </p>
 <p align="right"><a href="#readme-top">Back to top</a></p>
 
@@ -99,13 +100,12 @@
     </thead>
     <tbody>
       <tr>
-        <td><strong>Flutter Application</strong></td>
+        <td><strong>Frontend</strong></td>
         <td>
           <ul>
-            <li>Flutter SDK (latest stable version)</li>
-            <li>Dart SDK</li>
-            <li>Android Studio or VS Code with Flutter extension</li>
-            <li>Android Emulator or a physical device</li>
+            <li>Node.js 20 or newer</li>
+            <li>pnpm, npm, or yarn</li>
+            <li>VS Code or another editor with Nuxt support</li>
           </ul>
         </td>
       </tr>
@@ -113,9 +113,9 @@
         <td><strong>Backend API</strong></td>
         <td>
           <ul>
-            <li>Docker Desktop</li>
-            <li>Docker Compose</li>
-            <li>Git (recommended)</li>
+            <li>Go 1.22 or newer</li>
+            <li>MySQL 8 or compatible database</li>
+            <li>Redis</li>
           </ul>
         </td>
       </tr>
@@ -132,78 +132,82 @@
 
 This project consists of two main components:
 
-- **Flutter Mobile Application**
-- **PHP REST API (Dockerized)**
+- **Nuxt Frontend**
+- **Go REST API**
 
 ---
 
-### Flutter Application
+### Frontend
 
 1. Clone the repository.
 
 ```sh
 git clone <REPOSITORY_URL>
-cd Komiku
+cd CourseEnrollment
 ```
 
-2. Navigate to the Flutter project.
+2. Navigate to the frontend project.
 
 ```sh
-cd komiku
+cd frontend
 ```
 
 3. Install dependencies.
 
 ```sh
-flutter pub get
+pnpm install
 ```
 
 4. Configure the API endpoint.
 
-Update the base URL inside the API configuration to point to your backend.
+Update the base URL in the Nuxt API client to point to your backend.
 
 Example:
 
-```dart
-const String baseUrl = "http://localhost:8080";
+```ts
+const baseUrl = "http://localhost:8080";
 ```
 
 5. Run the application.
 
 ```sh
-flutter run
+pnpm dev
 ```
 
 ---
 
-### Backend API (Docker)
+### Backend API
 
-The backend API is fully containerized using Docker and Docker Compose.
+The backend is a Go service built with Gin and backed by Redis for caching.
 
 #### Prerequisites
 
-- Docker Desktop
-- Docker Compose
+- Go 1.22+
+- MySQL
+- Redis
 
 #### Start the backend
 
-Navigate to the server directory.
+Navigate to the backend directory.
 
 ```sh
-cd server
+cd endpoint
 ```
 
-Build and start all services.
+Install dependencies and start the API.
 
 ```sh
-docker compose up --build
+go mod tidy
+go run main.go
 ```
 
-This will start:
+This will start the Go API and connect it to the configured database and Redis instance.
 
-- PHP 8.3 + Apache
-- MySQL 8
-- Komiku REST API
+It covers:
+
+- Gin HTTP server
+- MySQL persistence
+- Redis cache
 
 The API will be available at
 
@@ -211,23 +215,7 @@ The API will be available at
 http://localhost:8080
 ```
 
-The interactive API documentation is also available at
-
-```text
-http://localhost:8080
-```
-
-#### Stop the backend
-
-```sh
-docker compose down
-```
-
-#### Rebuild after Dockerfile changes
-
-```sh
-docker compose up --build
-```
+The frontend can then consume the same base URL from the Nuxt client.
 
 <p align="right"><a href="#readme-top">Back to top</a></p>
 
@@ -238,11 +226,11 @@ docker compose up --build
     <h2>Usage</h2>
   </header>
   <ul>
-    <li>Create an account or log in to access all features.</li>
-    <li>Browse comics by category or search using keywords.</li>
-    <li>Select a comic to view its details, chapters, and comments.</li>
-    <li>Start reading by selecting a chapter.</li>
-    <li>Rate and comment on your favorite comics to share your thoughts.</li>
+    <li>Create an account or log in to access role-based dashboards.</li>
+    <li>Browse courses and inspect available course details.</li>
+    <li>Build a course plan by selecting the courses you want to take.</li>
+    <li>Let administrators review, approve, or manage submitted plans.</li>
+    <li>Use the project as a reference for Go, Nuxt, Redis, and JWT integration.</li>
   </ul>
   <p align="right"><a href="#readme-top">Back to top</a></p>
 </section>
@@ -262,20 +250,20 @@ docker compose up --build
     </thead>
     <tbody>
       <tr>
-        <td><code>flutter pub get</code></td>
-        <td>Fetch and install project dependencies.</td>
+        <td><code>pnpm install</code></td>
+        <td>Install frontend dependencies.</td>
       </tr>
       <tr>
-        <td><code>flutter run</code></td>
-        <td>Run the app in debug mode on a connected device.</td>
+        <td><code>pnpm dev</code></td>
+        <td>Run the Nuxt frontend in development mode.</td>
       </tr>
       <tr>
-        <td><code>flutter build apk</code></td>
-        <td>Build a production APK for Android.</td>
+        <td><code>go run main.go</code></td>
+        <td>Start the Go backend API.</td>
       </tr>
       <tr>
-        <td><code>flutter analyze</code></td>
-        <td>Run static analysis to check for issues in the code.</td>
+        <td><code>go test ./...</code></td>
+        <td>Run backend tests, if present.</td>
       </tr>
     </tbody>
   </table>
@@ -290,71 +278,71 @@ docker compose up --build
   </header>
 
   <p align="center">
-    <img src="docs/photo_1.png" width="300" alt="Home Page">
+    <img src="docs/photo_1.png" width="300" alt="Dashboard Page">
   </p>
 
   <p align="center">
-    Admin and Student Dashboard Page
+    Admin and student dashboard overview
   </p>
 
   <br>
 
   <p align="center">
-    <img src="docs/photo_2.png" width="300" alt="Category Page">
+    <img src="docs/photo_2.png" width="300" alt="Course List Page">
   </p>
 
   <p align="center">
-    Course List Page
-  </p>
-
-  <br />
-
-  <p align="center">
-    <img src="docs/photo_3.png" width="300" alt="Comic Page">
-  </p>
-
-  <p align="center">
-    Student's Course Plan (basket)
+    Course list and course browsing
   </p>
 
   <br />
 
   <p align="center">
-    <img src="docs/photo_4.png" width="300" alt="Comic Page">
+    <img src="docs/photo_3.png" width="300" alt="Course Plan Page">
   </p>
 
   <p align="center">
-    Admin's Approval Page and Student's Course Plan Approval
-  </p>
-
-  <br />
-
-  <p align="center">
-    <img src="docs/photo_5.png" width="300" alt="Comic Page">
-  </p>
-
-  <p align="center">
-    Admin's Approval Page
+    Student course plan draft
   </p>
 
   <br />
 
   <p align="center">
-    <img src="docs/photo_6.png" width="300" alt="Comic Page">
+    <img src="docs/photo_4.png" width="300" alt="Approval Page">
   </p>
 
   <p align="center">
-    Student's Course Plan List (history)
+    Admin review and approval flow
   </p>
 
   <br />
 
   <p align="center">
-    <img src="docs/photo_7.png" width="300" alt="Comic Page">
+    <img src="docs/photo_5.png" width="300" alt="Approval Detail Page">
   </p>
 
   <p align="center">
-    Student's Course Plan List (history)
+    Approval detail view
+  </p>
+
+  <br />
+
+  <p align="center">
+    <img src="docs/photo_6.png" width="300" alt="History Page">
+  </p>
+
+  <p align="center">
+    Student course plan history
+  </p>
+
+  <br />
+
+  <p align="center">
+    <img src="docs/photo_7.png" width="300" alt="Profile Page">
+  </p>
+
+  <p align="center">
+    Additional project screen
   </p>
 
   <br />
@@ -370,8 +358,7 @@ docker compose up --build
   <header>
     <h2>API</h2>
   </header>
-  <p>The backend API supports various actions for user management, comic browsing, and social interactions. All requests are made using the <code>POST</code> method to a central endpoint with an <code>action</code> parameter.</p>
-  <p>The API server is also available as a Docker image on Docker Hub: <a href="https://hub.docker.com/repository/docker/yosimaril/komiku-api/general">yosimaril/komiku-api</a>.</p>
+  <p>The backend API supports authentication, course management, course-plan workflows, and student approvals. It is organized around Go handlers and protected routes for a straightforward local setup.</p>
 
   <table>
     <thead>
@@ -393,25 +380,25 @@ docker compose up --build
         <td><code>REGISTER</code></td>
         <td>POST</td>
         <td>No</td>
-        <td>Create a new user account.</td>
+        <td>Create a new student account.</td>
       </tr>
       <tr>
         <td><code>UPDATE_USER</code></td>
         <td>POST</td>
         <td>Yes</td>
-        <td>Update user account details.</td>
+        <td>Update user profile details.</td>
       </tr>
       <tr>
         <td><code>DELETE_USER</code></td>
         <td>POST</td>
         <td>Yes</td>
-        <td>Delete user account.</td>
+        <td>Delete a user account.</td>
       </tr>
       <tr>
         <td><code>GET_CATEGORIES</code></td>
         <td>POST</td>
         <td>No</td>
-        <td>Retrieve all available comic categories.</td>
+        <td>Retrieve all available course categories.</td>
       </tr>
       <tr>
         <td><code>INSERT_CATEGORY</code></td>
@@ -432,118 +419,118 @@ docker compose up --build
         <td>Delete a category.</td>
       </tr>
       <tr>
-        <td><code>GET_COMICS</code></td>
+        <td><code>GET_COURSES</code></td>
         <td>POST</td>
         <td>No</td>
-        <td>Retrieve all available comics.</td>
+        <td>Retrieve all available courses.</td>
       </tr>
       <tr>
-        <td><code>GET_COMIC_DETAIL</code></td>
+        <td><code>GET_COURSE_DETAIL</code></td>
         <td>POST</td>
         <td>No</td>
-        <td>Retrieve details for a specific comic.</td>
+        <td>Retrieve details for a specific course.</td>
       </tr>
       <tr>
-        <td><code>INSERT_COMIC</code></td>
+        <td><code>INSERT_COURSE</code></td>
         <td>POST</td>
         <td>Yes</td>
-        <td>Create a new comic entry.</td>
+        <td>Create a new course entry.</td>
       </tr>
       <tr>
-        <td><code>UPDATE_COMIC</code></td>
+        <td><code>UPDATE_COURSE</code></td>
         <td>POST</td>
         <td>Yes</td>
-        <td>Update an existing comic.</td>
+        <td>Update an existing course.</td>
       </tr>
       <tr>
-        <td><code>DELETE_COMIC</code></td>
+        <td><code>DELETE_COURSE</code></td>
         <td>POST</td>
         <td>Yes</td>
-        <td>Delete a comic.</td>
+        <td>Delete a course.</td>
       </tr>
       <tr>
-        <td><code>GET_COMIC_CHAPTERS</code></td>
+        <td><code>GET_COURSE_PLAN_ITEMS</code></td>
         <td>POST</td>
         <td>No</td>
-        <td>Retrieve all chapters of a comic.</td>
+        <td>Retrieve all course plan items.</td>
       </tr>
       <tr>
-        <td><code>INSERT_COMIC_CHAPTERS</code></td>
+        <td><code>INSERT_COURSE_PLAN_ITEMS</code></td>
         <td>POST</td>
         <td>Yes</td>
-        <td>Insert new chapter(s) for a comic.</td>
+        <td>Insert new course plan item(s).</td>
       </tr>
       <tr>
-        <td><code>UPDATE_COMIC_CHAPTER</code></td>
+        <td><code>UPDATE_COURSE_PLAN_ITEM</code></td>
         <td>POST</td>
         <td>Yes</td>
-        <td>Update an existing chapter.</td>
+        <td>Update an existing course plan item.</td>
       </tr>
       <tr>
-        <td><code>DELETE_COMIC_CHAPTER</code></td>
+        <td><code>DELETE_COURSE_PLAN_ITEM</code></td>
         <td>POST</td>
         <td>Yes</td>
-        <td>Delete a chapter.</td>
+        <td>Delete a course plan item.</td>
       </tr>
       <tr>
-        <td><code>GET_COMIC_CHAPTER_PAGES</code></td>
+        <td><code>GET_COURSE_PLAN_HISTORY</code></td>
         <td>POST</td>
         <td>No</td>
-        <td>Retrieve all pages of a chapter.</td>
+        <td>Retrieve all items in a plan history entry.</td>
       </tr>
       <tr>
-        <td><code>INSERT_COMIC_CHAPTER_PAGES</code></td>
+        <td><code>INSERT_COURSE_PLAN_HISTORY</code></td>
         <td>POST</td>
         <td>Yes</td>
-        <td>Insert new page(s) for a chapter.</td>
+        <td>Insert new item(s) into a plan history entry.</td>
       </tr>
       <tr>
-        <td><code>UPDATE_COMIC_CHAPTER_PAGE</code></td>
+        <td><code>UPDATE_COURSE_PLAN_HISTORY</code></td>
         <td>POST</td>
         <td>Yes</td>
-        <td>Update an existing page.</td>
+        <td>Update an existing plan history item.</td>
       </tr>
       <tr>
-        <td><code>DELETE_COMIC_CHAPTER_PAGE</code></td>
+        <td><code>DELETE_COURSE_PLAN_HISTORY</code></td>
         <td>POST</td>
         <td>Yes</td>
-        <td>Delete a page.</td>
+        <td>Delete a plan history item.</td>
       </tr>
       <tr>
         <td><code>GET_COMMENTS</code></td>
         <td>POST</td>
         <td>No</td>
-        <td>Retrieve all comments for a comic.</td>
+        <td>Retrieve all plan notes or comments.</td>
       </tr>
       <tr>
         <td><code>INSERT_COMMENT</code></td>
         <td>POST</td>
         <td>Yes</td>
-        <td>Post a new comment.</td>
+        <td>Post a new note or comment.</td>
       </tr>
       <tr>
         <td><code>UPDATE_COMMENT</code></td>
         <td>POST</td>
         <td>Yes</td>
-        <td>Edit an existing comment.</td>
+        <td>Edit an existing note or comment.</td>
       </tr>
       <tr>
         <td><code>DELETE_COMMENT</code></td>
         <td>POST</td>
         <td>Yes</td>
-        <td>Remove a comment.</td>
+        <td>Remove a note or comment.</td>
       </tr>
       <tr>
         <td><code>GET_REPLIES</code></td>
         <td>POST</td>
         <td>No</td>
-        <td>Retrieve all replies to a comment.</td>
+        <td>Retrieve replies for a note or comment.</td>
       </tr>
       <tr>
         <td><code>INSERT_REPLY</code></td>
         <td>POST</td>
         <td>Yes</td>
-        <td>Post a reply to a comment.</td>
+        <td>Post a reply to a note or comment.</td>
       </tr>
       <tr>
         <td><code>UPDATE_REPLY</code></td>
@@ -561,19 +548,19 @@ docker compose up --build
         <td><code>GET_RATING</code></td>
         <td>POST</td>
         <td>Yes</td>
-        <td>Retrieve user's rating for a comic.</td>
+        <td>Retrieve a user's approval status for a plan.</td>
       </tr>
       <tr>
         <td><code>SAVE_RATING</code></td>
         <td>POST</td>
         <td>Yes</td>
-        <td>Submit or update a rating for a comic.</td>
+        <td>Submit or update a plan approval value.</td>
       </tr>
       <tr>
         <td><code>DELETE_RATING</code></td>
         <td>POST</td>
         <td>Yes</td>
-        <td>Remove a rating.</td>
+        <td>Remove a stored approval value.</td>
       </tr>
     </tbody>
   </table>
@@ -588,17 +575,5 @@ docker compose up --build
     <h2>License</h2>
   </header>
   <p>Distributed under the MIT License. See <code>LICENSE</code> for more information.</p>
-  <p align="right"><a href="#readme-top">Back to top</a></p>
-</section>
-
-<br>
-
-<section id="acknowledgments">
-  <header>
-    <h2>Acknowledgments</h2>
-  </header>
-  <ul>
-    <li>Freepik for the illustration asset.</li>
-  </ul>
   <p align="right"><a href="#readme-top">Back to top</a></p>
 </section>
