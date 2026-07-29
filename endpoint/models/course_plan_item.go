@@ -1,7 +1,6 @@
 package models
 
 import (
-	"time"
 	"yosimaril/CourseEnrollment/constants"
 )
 
@@ -11,8 +10,7 @@ type CoursePlanItem struct {
 	Status       constants.CoursePlanItemStatus `json:"status"`
 	Remarks      *string                        `json:"remarks"`
 
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	BaseModel
 
 	CoursePlan CoursePlan `gorm:"foreignKey:CoursePlanID"`
 	Course     Course     `gorm:"foreignKey:CourseID"`
