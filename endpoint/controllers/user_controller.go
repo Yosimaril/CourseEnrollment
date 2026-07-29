@@ -88,6 +88,8 @@ func (uc UserController) Create(c *gin.Context) {
 		return
 	}
 
+	repositories.InvalidateCachePrefixes("user")
+
 	c.JSON(http.StatusCreated, user)
 }
 
@@ -153,6 +155,8 @@ func (uc UserController) Update(c *gin.Context) {
 		return
 	}
 
+	repositories.InvalidateCachePrefixes("user")
+
 	c.JSON(http.StatusOK, user)
 }
 
@@ -176,6 +180,8 @@ func (uc UserController) Delete(c *gin.Context) {
 		})
 		return
 	}
+
+	repositories.InvalidateCachePrefixes("user")
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": i18n.T(lang, "user_deleted"),

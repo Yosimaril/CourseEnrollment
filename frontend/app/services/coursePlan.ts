@@ -1,18 +1,16 @@
-import type { CoursePlanItemStatusEnum } from "~/constants/coursePlanItemStatusEnum"
-import type { CoursePlan } from "~/models/coursePlan"
-import type { CoursePlanItem } from "~/models/coursePlanItem"
-import type { Course } from "~/models/course"
-import type { User } from "~/models/user"
-import type { RawCourse } from "~/mapper/courseMapper"
-import type { RawCoursePlan } from "~/mapper/coursePlanMapper"
-import type { RawCoursePlanItem } from "~/mapper/coursePlanItemMapper"
-import type { RawUser } from "~/mapper/userMapper"
-
-const { $api } = useNuxtApp()
+import type { CoursePlanItemStatusEnum } from "~/constants/coursePlanItemStatusEnum";
+import type { CoursePlan } from "~/models/coursePlan";
+import type { CoursePlanItem } from "~/models/coursePlanItem";
+import type { Course } from "~/models/course";
+import type { User } from "~/models/user";
+import type { RawCourse } from "~/mapper/courseMapper";
+import type { RawCoursePlan } from "~/mapper/coursePlanMapper";
+import type { RawCoursePlanItem } from "~/mapper/coursePlanItemMapper";
+import type { RawUser } from "~/mapper/userMapper";
 
 function normalizeUser(user?: RawUser): User | undefined {
     if (!user) {
-        return undefined
+        return undefined;
     }
 
     return {
@@ -24,12 +22,12 @@ function normalizeUser(user?: RawUser): User | undefined {
         maxCredits: user.maxCredits ?? user.max_credits,
         createdAt: user.createdAt ?? user.created_at ?? "",
         updatedAt: user.updatedAt ?? user.updated_at ?? "",
-    }
+    };
 }
 
 function normalizeCourse(course?: RawCourse): Course | undefined {
     if (!course) {
-        return undefined
+        return undefined;
     }
 
     return {
@@ -39,7 +37,7 @@ function normalizeCourse(course?: RawCourse): Course | undefined {
         credits: course.credits ?? course.Credits ?? 0,
         createdAt: course.createdAt ?? course.created_at ?? "",
         updatedAt: course.updatedAt ?? course.updated_at ?? "",
-    }
+    };
 }
 
 function normalizeCoursePlanItem(item: RawCoursePlanItem): CoursePlanItem {
@@ -51,11 +49,11 @@ function normalizeCoursePlanItem(item: RawCoursePlanItem): CoursePlanItem {
         course: normalizeCourse(item.course ?? item.Course),
         createdAt: item.createdAt ?? item.created_at ?? "",
         updatedAt: item.updatedAt ?? item.updated_at ?? "",
-    }
+    };
 }
 
 function normalizeCoursePlan(plan: RawCoursePlan): CoursePlan {
-    const items = plan.items ?? plan.Items ?? []
+    const items = plan.items ?? plan.Items ?? [];
 
     return {
         id: plan.id ?? 0,
@@ -65,51 +63,57 @@ function normalizeCoursePlan(plan: RawCoursePlan): CoursePlan {
         items: items.map(normalizeCoursePlanItem),
         createdAt: plan.createdAt ?? plan.created_at ?? "",
         updatedAt: plan.updatedAt ?? plan.updated_at ?? "",
-    }
+    };
 }
 
 export const CoursePlanService = {
     async getMyCoursePlan(): Promise<CoursePlan> {
-        const response = await $api<RawCoursePlan>("/student/course-plan")
-        return normalizeCoursePlan(response)
+        const { $api } = useNuxtApp();
+        const response = await $api<RawCoursePlan>("/student/course-plan");
+        return normalizeCoursePlan(response);
     },
 
     async getMyCoursePlans(): Promise<CoursePlan[]> {
-        const response = await $api<RawCoursePlan[]>("/student/course-plans")
-        return Array.isArray(response) ? response.map(normalizeCoursePlan) : []
+        const { $api } = useNuxtApp();
+        const response = await $api<RawCoursePlan[]>("/student/course-plans");
+        return Array.isArray(response) ? response.map(normalizeCoursePlan) : [];
     },
 
     async submitMyCoursePlan(): Promise<CoursePlan> {
+        const { $api } = useNuxtApp();
         const response = await $api<RawCoursePlan>("/student/course-plan/submit", {
             method: "POST",
-        })
+        });
 
-        return normalizeCoursePlan(response)
+        return normalizeCoursePlan(response);
     },
 
     async cancelMyCoursePlan(id: number) {
+        const { $api } = useNuxtApp();
         return await $api(`/student/course-plans/${id}`, {
             method: "DELETE",
-        })
+        });
     },
 
     async getPendingCoursePlans(): Promise<CoursePlan[]> {
-        const response = await $api<RawCoursePlan[]>("/admin/course-plans?status=PENDING_REVIEW")
-        return Array.isArray(response) ? response.map(normalizeCoursePlan) : []
+        const { $api } = useNuxtApp();
+        const response = await $api<RawCoursePlan[]>("/admin/course-plans?status=PENDING_REVIEW");
+        return Array.isArray(response) ? response.map(normalizeCoursePlan) : [];
     },
 
     async reviewCoursePlan(
         id: number,
         payload: {
-            item_status: CoursePlanItemStatusEnum
-            course_ids?: number[]
-        }
+            item_status: CoursePlanItemStatusEnum;
+            course_ids?: number[];
+        },
     ) {
+        const { $api } = useNuxtApp();
         const response = await $api<RawCoursePlan>(`/admin/course-plans/${id}/review`, {
             method: "PUT",
             body: payload,
-        })
+        });
 
-        return normalizeCoursePlan(response)
+        return normalizeCoursePlan(response);
     },
-}
+};

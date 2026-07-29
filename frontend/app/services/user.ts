@@ -1,31 +1,34 @@
-const { $api } = useNuxtApp()
-
 export const UserService = {
     async getUsers() {
-        return await $api("/users")
+        const { $api } = useNuxtApp();
+        return await $api("/users");
     },
 
     async getUser(id: number) {
-        return await $api(`/users/${id}`)
+        const { $api } = useNuxtApp();
+        return await $api(`/users/${id}`);
     },
 
     async createUser(user: any) {
+        const { $api } = useNuxtApp();
         return await $api("/admin/user", {
             method: "POST",
-            body: user
-        })
+            body: user,
+        });
     },
 
     async updateUser(id: number, user: any) {
+        const { $api } = useNuxtApp();
         return await $api(`/admin/user/${id}`, {
             method: "PUT",
-            body: user
-        })
+            body: user,
+        });
     },
 
     async deleteUser(id: number) {
+        const { $api } = useNuxtApp();
         return await $api(`/admin/user/${id}`, {
-            method: "DELETE"
-        })
-    }
-}
+            method: "DELETE",
+        });
+    },
+};

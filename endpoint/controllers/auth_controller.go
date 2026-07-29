@@ -104,6 +104,8 @@ func (ac AuthController) Register(c *gin.Context) {
 		return
 	}
 
+	repositories.InvalidateCachePrefixes("user")
+
 	tokenString, err := token.GenerateToken(user.ID, user.Role)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{

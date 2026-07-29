@@ -5,37 +5,14 @@
                 <div>
                     <p class="text-sm font-bold uppercase tracking-[0.08em] text-slate-600">Admin dashboard</p>
                     <h1 class="mt-2 text-3xl font-bold text-slate-900 sm:text-4xl">Signed in as admin.</h1>
-                    <p class="mt-4 max-w-3xl text-base leading-7 text-slate-600">
-                        Manage the course catalog, student accounts, and course plan approvals from one place.
-                    </p>
+                    <p class="mt-4 max-w-3xl text-base leading-7 text-slate-600">Manage the course catalog, student accounts, and course plan approvals from one place.</p>
                 </div>
 
                 <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                    <NuxtLink
-                        to="/admin/courses"
-                        class="inline-flex min-h-11 items-center justify-center rounded-md bg-blue-900 px-4 py-2 font-semibold text-white transition hover:bg-blue-800"
-                    >
-                        Manage courses
-                    </NuxtLink>
-                    <NuxtLink
-                        to="/admin/students"
-                        class="inline-flex min-h-11 items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 font-semibold text-slate-900 transition hover:border-blue-900"
-                    >
-                        Student list
-                    </NuxtLink>
-                    <NuxtLink
-                        to="/admin/approvals"
-                        class="inline-flex min-h-11 items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 font-semibold text-slate-900 transition hover:border-blue-900"
-                    >
-                        Approvals
-                    </NuxtLink>
-                    <button
-                        type="button"
-                        class="inline-flex min-h-11 items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 font-semibold text-slate-900 transition hover:border-blue-900"
-                        @click="logout"
-                    >
-                        Logout
-                    </button>
+                    <NuxtLink to="/admin/courses" class="inline-flex min-h-11 items-center justify-center rounded-md bg-blue-900 px-4 py-2 font-semibold text-white transition hover:bg-blue-800"> Manage courses </NuxtLink>
+                    <NuxtLink to="/admin/students" class="inline-flex min-h-11 items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 font-semibold text-slate-900 transition hover:border-blue-900"> Student list </NuxtLink>
+                    <NuxtLink to="/admin/approvals" class="inline-flex min-h-11 items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 font-semibold text-slate-900 transition hover:border-blue-900"> Approvals </NuxtLink>
+                    <button type="button" class="inline-flex min-h-11 items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 font-semibold text-slate-900 transition hover:border-blue-900" @click="logout">Logout</button>
                 </div>
             </div>
 
@@ -68,24 +45,9 @@
                 <aside class="rounded-md border border-slate-200 bg-slate-50 p-5">
                     <p class="text-sm font-bold uppercase tracking-[0.08em] text-slate-600">Quick actions</p>
                     <div class="mt-4 grid gap-3">
-                        <NuxtLink
-                            to="/admin/approvals"
-                            class="inline-flex min-h-11 items-center justify-center rounded-md bg-blue-900 px-4 py-2 font-semibold text-white transition hover:bg-blue-800"
-                        >
-                            Review approvals
-                        </NuxtLink>
-                        <NuxtLink
-                            to="/admin/courses"
-                            class="inline-flex min-h-11 items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 font-semibold text-slate-900 transition hover:border-blue-900"
-                        >
-                            Update course catalog
-                        </NuxtLink>
-                        <NuxtLink
-                            to="/admin/students"
-                            class="inline-flex min-h-11 items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 font-semibold text-slate-900 transition hover:border-blue-900"
-                        >
-                            Check student records
-                        </NuxtLink>
+                        <NuxtLink to="/admin/approvals" class="inline-flex min-h-11 items-center justify-center rounded-md bg-blue-900 px-4 py-2 font-semibold text-white transition hover:bg-blue-800"> Review approvals </NuxtLink>
+                        <NuxtLink to="/admin/courses" class="inline-flex min-h-11 items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 font-semibold text-slate-900 transition hover:border-blue-900"> Update course catalog </NuxtLink>
+                        <NuxtLink to="/admin/students" class="inline-flex min-h-11 items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 font-semibold text-slate-900 transition hover:border-blue-900"> Check student records </NuxtLink>
                     </div>
 
                     <div class="mt-6 rounded-md border border-slate-200 bg-white p-4">
@@ -105,44 +67,44 @@
 </template>
 
 <script setup lang="ts">
-import { CoursePlanService } from "~/services/coursePlan"
-import type { CoursePlan } from "~/models/coursePlan"
-import { clearStoredToken } from "~/utils/auth"
-import { extractErrorMessage } from "~/utils/auth"
+import { CoursePlanService } from "~/services/coursePlan";
+import type { CoursePlan } from "~/models/coursePlan";
+import { clearStoredToken } from "~/utils/auth";
+import { extractErrorMessage } from "~/utils/auth";
 
 definePageMeta({
     middleware: ["auth", "admin"],
-})
+});
 
-const pendingPlans = ref<CoursePlan[]>([])
-const isLoading = ref(true)
-const errorMessage = ref("")
+const pendingPlans = ref<CoursePlan[]>([]);
+const isLoading = ref(true);
+const errorMessage = ref("");
 
-const pendingApprovalsCount = computed(() => pendingPlans.value.length)
-const totalPendingItems = computed(() => pendingPlans.value.reduce((sum, plan) => sum + plan.items.length, 0))
+const pendingApprovalsCount = computed(() => pendingPlans.value.length);
+const totalPendingItems = computed(() => pendingPlans.value.reduce((sum, plan) => sum + plan.items.length, 0));
 const latestApprovalLabel = computed(() => {
-    const latestPlan = pendingPlans.value[0]
+    const latestPlan = pendingPlans.value[0];
 
     if (!latestPlan) {
-        return "No pending plans"
+        return "No pending plans";
     }
 
-    return latestPlan.student?.username ?? `Student #${latestPlan.studentId}`
-})
-const recentPendingPlans = computed(() => pendingPlans.value.slice(0, 4))
+    return latestPlan.student?.username ?? `Student #${latestPlan.studentId}`;
+});
+const recentPendingPlans = computed(() => pendingPlans.value.slice(0, 4));
 
 onMounted(async () => {
     try {
-        pendingPlans.value = await CoursePlanService.getPendingCoursePlans()
+        pendingPlans.value = await CoursePlanService.getPendingCoursePlans();
     } catch (error) {
-        errorMessage.value = extractErrorMessage(error, "Unable to load dashboard summary right now.")
+        errorMessage.value = extractErrorMessage(error, "Unable to load dashboard summary right now.");
     } finally {
-        isLoading.value = false
+        isLoading.value = false;
     }
-})
+});
 
 async function logout() {
-    clearStoredToken()
-    await navigateTo("/auth/login")
+    clearStoredToken();
+    await navigateTo("/auth/login");
 }
 </script>

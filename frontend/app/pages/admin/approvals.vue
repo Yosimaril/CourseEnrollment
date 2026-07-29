@@ -45,7 +45,7 @@
                                 {{ plan.student?.email }}
                             </p>
                             <p class="mt-2 text-sm text-slate-600">
-                                Status: {{ plan.status }}
+                                Status: {{ CoursePlanStatusMapper[plan.status] }}
                             </p>
                         </div>
 
@@ -116,6 +116,7 @@ import { CoursePlanService } from "~/services/coursePlan"
 import type { CoursePlan } from "~/models/coursePlan"
 import { CoursePlanItemStatusEnum } from "~/constants/coursePlanItemStatusEnum"
 import { extractErrorMessage } from "~/utils/auth"
+import { CoursePlanStatusMapper } from "~/mapper/coursePlanStatusMapper"
 
 definePageMeta({
     middleware: ["auth", "admin"],

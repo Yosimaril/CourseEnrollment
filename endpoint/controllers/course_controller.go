@@ -90,6 +90,8 @@ func (cc CourseController) Create(c *gin.Context) {
 		return
 	}
 
+	repositories.InvalidateCachePrefixes("course")
+
 	c.JSON(http.StatusCreated, course)
 }
 
@@ -149,6 +151,8 @@ func (cc CourseController) Update(c *gin.Context) {
 		return
 	}
 
+	repositories.InvalidateCachePrefixes("course")
+
 	c.JSON(http.StatusOK, course)
 }
 
@@ -172,6 +176,8 @@ func (cc CourseController) Delete(c *gin.Context) {
 		})
 		return
 	}
+
+	repositories.InvalidateCachePrefixes("course")
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": i18n.T(lang, "course_deleted"),

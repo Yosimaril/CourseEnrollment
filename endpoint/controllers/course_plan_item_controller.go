@@ -18,6 +18,24 @@ import (
 
 type CoursePlanItemController struct{}
 
+func totalCoursePlanCredits(items []models.CoursePlanItem) int {
+	total := 0
+
+	for _, item := range items {
+		total += item.Course.Credits
+	}
+
+	return total
+}
+
+func exceedsCoursePlanCreditLimit(maxCredits *int, items []models.CoursePlanItem, additionalCredits int) bool {
+	if maxCredits == nil {
+		return false
+	}
+
+	return totalCoursePlanCredits(items)+additionalCredits > *maxCredits
+}
+
 func (cpc CoursePlanItemController) GetAll(c *gin.Context) {
 	lang := helpers.GetLang(c)
 	var coursePlanID, courseID uint
@@ -99,11 +117,51 @@ func (cpc CoursePlanItemController) GetByID(c *gin.Context) {
 }
 
 func (cpc CoursePlanItemController) Create(c *gin.Context) {
+	lang := helpers.GetLang(c)
 	var request dto.CreateCoursePlanItemRequest
 
 	if err := c.ShouldBindJSON(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": err.Error(),
+		})
+		return
+	}
+
+	courseRepo := repositories.CourseRepository{}
+	course, err := courseRepo.GetByID(request.CourseID)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusNotFound, gin.H{
+				"message": "Course not found",
+			})
+			return
+		}
+
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	coursePlanRepo := repositories.CoursePlanRepository{}
+	coursePlan, err := coursePlanRepo.GetByID(request.CoursePlanID)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusNotFound, gin.H{
+				"message": i18n.T(lang, "course_plan_not_found"),
+			})
+			return
+		}
+
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	if exceedsCoursePlanCreditLimit(coursePlan.Student.MaxCredits, coursePlan.Items, course.Credits) {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": i18n.T(lang, "course_plan_credit_limit_exceeded"),
 		})
 		return
 	}
@@ -124,10 +182,13 @@ func (cpc CoursePlanItemController) Create(c *gin.Context) {
 		return
 	}
 
+	repositories.InvalidateCachePrefixes("course_plan_item")
+
 	c.JSON(http.StatusCreated, coursePlanItem)
 }
 
 func (cpc CoursePlanItemController) AddToPickedCourses(c *gin.Context) {
+	lang := helpers.GetLang(c)
 	claimsValue, exists := c.Get("claims")
 	if !exists {
 		c.JSON(http.StatusUnauthorized, gin.H{
@@ -163,7 +224,8 @@ func (cpc CoursePlanItemController) AddToPickedCourses(c *gin.Context) {
 	}
 
 	courseRepo := repositories.CourseRepository{}
-	if _, err := courseRepo.GetByID(request.CourseID); err != nil {
+	course, err := courseRepo.GetByID(request.CourseID)
+	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			c.JSON(http.StatusNotFound, gin.H{
 				"message": "Course not found",
@@ -177,9 +239,52 @@ func (cpc CoursePlanItemController) AddToPickedCourses(c *gin.Context) {
 		return
 	}
 
+	userRepo := repositories.UserRepository{}
+	student, err := userRepo.GetByID(claims.UserID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
 	coursePlanRepo := repositories.CoursePlanRepository{}
 	coursePlan, err := coursePlanRepo.GetDraftByStudent(claims.UserID)
+	planExists := err == nil
 	if err != nil {
+		if !errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"message": err.Error(),
+			})
+			return
+		}
+	}
+
+	if planExists {
+		repo := repositories.CoursePlanItemRepository{}
+		_, err = repo.GetByID(coursePlan.ID, request.CourseID)
+		if err == nil {
+			c.JSON(http.StatusConflict, gin.H{
+				"message": "Course already added",
+			})
+			return
+		}
+		if !errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"message": err.Error(),
+			})
+			return
+		}
+	}
+
+	if exceedsCoursePlanCreditLimit(student.MaxCredits, coursePlan.Items, course.Credits) {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": i18n.T(lang, "course_plan_credit_limit_exceeded"),
+		})
+		return
+	}
+
+	if !planExists {
 		newCoursePlan := models.CoursePlan{
 			StudentID: claims.UserID,
 			Status:    constants.CoursePlanDraft,
@@ -196,19 +301,6 @@ func (cpc CoursePlanItemController) AddToPickedCourses(c *gin.Context) {
 	}
 
 	repo := repositories.CoursePlanItemRepository{}
-	_, err = repo.GetByID(coursePlan.ID, request.CourseID)
-	if err == nil {
-		c.JSON(http.StatusConflict, gin.H{
-			"message": "Course already added",
-		})
-		return
-	}
-	if !errors.Is(err, gorm.ErrRecordNotFound) {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"message": err.Error(),
-		})
-		return
-	}
 
 	coursePlanItem := models.CoursePlanItem{
 		CoursePlanID: coursePlan.ID,
@@ -222,6 +314,8 @@ func (cpc CoursePlanItemController) AddToPickedCourses(c *gin.Context) {
 		})
 		return
 	}
+
+	repositories.InvalidateCachePrefixes("course_plan_item")
 
 	c.JSON(http.StatusCreated, coursePlanItem)
 }
@@ -257,6 +351,8 @@ func (cpc CoursePlanItemController) DeleteFromPickedCourses(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}
+
+	repositories.InvalidateCachePrefixes("course_plan_item")
 
 	c.JSON(http.StatusOK, gin.H{"message": "Course removed"})
 }
@@ -321,6 +417,8 @@ func (cpc CoursePlanItemController) Update(c *gin.Context) {
 		return
 	}
 
+	repositories.InvalidateCachePrefixes("course_plan_item")
+
 	c.JSON(http.StatusOK, coursePlanItem)
 }
 
@@ -351,6 +449,8 @@ func (cpc CoursePlanItemController) Delete(c *gin.Context) {
 		})
 		return
 	}
+
+	repositories.InvalidateCachePrefixes("course_plan_item")
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": i18n.T(lang, "course_plan_item_deleted"),

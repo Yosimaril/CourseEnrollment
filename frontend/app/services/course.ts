@@ -1,31 +1,34 @@
-const { $api } = useNuxtApp()
-
 export const CourseService = {
     async getCourses() {
-        return await $api("/courses")
+        const { $api } = useNuxtApp();
+        return await $api("/courses");
     },
 
     async getCourse(id: number) {
-        return await $api(`/courses/${id}`)
+        const { $api } = useNuxtApp();
+        return await $api(`/courses/${id}`);
     },
 
     async createCourse(course: any) {
+        const { $api } = useNuxtApp();
         return await $api("/admin/courses", {
             method: "POST",
-            body: course
-        })
+            body: course,
+        });
     },
 
     async updateCourse(id: number, course: any) {
+        const { $api } = useNuxtApp();
         return await $api(`/admin/courses/${id}`, {
             method: "PUT",
-            body: course
-        })
+            body: course,
+        });
     },
 
     async deleteCourse(id: number) {
+        const { $api } = useNuxtApp();
         return await $api(`/admin/courses/${id}`, {
-            method: "DELETE"
-        })
-    }
-}
+            method: "DELETE",
+        });
+    },
+};

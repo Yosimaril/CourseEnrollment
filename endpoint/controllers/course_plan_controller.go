@@ -127,6 +127,8 @@ func (cpc CoursePlanController) SubmitCurrentStudentPlan(c *gin.Context) {
 		return
 	}
 
+	repositories.InvalidateCachePrefixes("course_plan_item")
+
 	c.JSON(http.StatusOK, coursePlan)
 }
 
@@ -174,6 +176,8 @@ func (cpc CoursePlanController) CancelStudentCoursePlan(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}
+
+	repositories.InvalidateCachePrefixes("course_plan_item")
 
 	c.JSON(http.StatusOK, gin.H{"message": "Course plan cancelled"})
 }
@@ -260,6 +264,8 @@ func (cpc CoursePlanController) ReviewCoursePlan(c *gin.Context) {
 		}
 	}
 
+	repositories.InvalidateCachePrefixes("course_plan_item")
+
 	updatedPlan, err := repo.GetByID(coursePlan.ID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
@@ -325,6 +331,8 @@ func (cpc CoursePlanController) Create(c *gin.Context) {
 		return
 	}
 
+	repositories.InvalidateCachePrefixes("course_plan_item")
+
 	c.JSON(http.StatusCreated, coursePlan)
 }
 
@@ -381,6 +389,8 @@ func (cpc CoursePlanController) Update(c *gin.Context) {
 		return
 	}
 
+	repositories.InvalidateCachePrefixes("course_plan_item")
+
 	c.JSON(http.StatusOK, coursePlan)
 }
 
@@ -404,6 +414,8 @@ func (cpc CoursePlanController) Delete(c *gin.Context) {
 		})
 		return
 	}
+
+	repositories.InvalidateCachePrefixes("course_plan_item")
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": i18n.T(lang, "course_plan_deleted"),
