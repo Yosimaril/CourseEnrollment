@@ -366,201 +366,290 @@ The frontend can then consume the same base URL from the Nuxt client.
         <th>Title</th>
         <th>Method</th>
         <th>Auth</th>
+        <th>RBAC</th>
         <th>Description</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><code>LOGIN</code></td>
+        <td><code>/auth/login</code></td>
         <td>POST</td>
         <td>No</td>
+        <td>Public</td>
         <td>Authenticate user and retrieve JWT token.</td>
       </tr>
       <tr>
-        <td><code>REGISTER</code></td>
+        <td><code>/auth/register</code></td>
         <td>POST</td>
         <td>No</td>
+        <td>Public</td>
         <td>Create a new student account.</td>
       </tr>
       <tr>
-        <td><code>UPDATE_USER</code></td>
+        <td><code>/users</code></td>
+        <td>GET</td>
+        <td>Yes</td>
+        <td>Authenticated</td>
+        <td>Retrieve all users.</td>
+      </tr>
+      <tr>
+        <td><code>/users/:id</code></td>
+        <td>GET</td>
+        <td>Yes</td>
+        <td>Authenticated</td>
+        <td>Retrieve a user by ID.</td>
+      </tr>
+      <tr>
+        <td><code>/users</code></td>
         <td>POST</td>
         <td>Yes</td>
+        <td>Authenticated</td>
+        <td>Create a user.</td>
+      </tr>
+      <tr>
+        <td><code>/users/:id</code></td>
+        <td>PUT</td>
+        <td>Yes</td>
+        <td>Authenticated</td>
         <td>Update user profile details.</td>
       </tr>
       <tr>
-        <td><code>DELETE_USER</code></td>
-        <td>POST</td>
+        <td><code>/users/:id</code></td>
+        <td>DELETE</td>
         <td>Yes</td>
+        <td>Authenticated</td>
         <td>Delete a user account.</td>
       </tr>
       <tr>
-        <td><code>GET_CATEGORIES</code></td>
-        <td>POST</td>
-        <td>No</td>
-        <td>Retrieve all available course categories.</td>
-      </tr>
-      <tr>
-        <td><code>INSERT_CATEGORY</code></td>
-        <td>POST</td>
-        <td>No</td>
-        <td>Create a new category.</td>
-      </tr>
-      <tr>
-        <td><code>UPDATE_CATEGORY</code></td>
-        <td>POST</td>
-        <td>No</td>
-        <td>Update an existing category.</td>
-      </tr>
-      <tr>
-        <td><code>DELETE_CATEGORY</code></td>
-        <td>POST</td>
-        <td>No</td>
-        <td>Delete a category.</td>
-      </tr>
-      <tr>
-        <td><code>GET_COURSES</code></td>
-        <td>POST</td>
-        <td>No</td>
+        <td><code>/courses</code></td>
+        <td>GET</td>
+        <td>Yes</td>
+        <td>Authenticated</td>
         <td>Retrieve all available courses.</td>
       </tr>
       <tr>
-        <td><code>GET_COURSE_DETAIL</code></td>
-        <td>POST</td>
-        <td>No</td>
+        <td><code>/courses/:id</code></td>
+        <td>GET</td>
+        <td>Yes</td>
+        <td>Authenticated</td>
         <td>Retrieve details for a specific course.</td>
       </tr>
       <tr>
-        <td><code>INSERT_COURSE</code></td>
+        <td><code>/admin/courses</code></td>
         <td>POST</td>
         <td>Yes</td>
+        <td>Admin only</td>
         <td>Create a new course entry.</td>
       </tr>
       <tr>
-        <td><code>UPDATE_COURSE</code></td>
-        <td>POST</td>
+        <td><code>/admin/courses/:id</code></td>
+        <td>PUT</td>
         <td>Yes</td>
+        <td>Admin only</td>
         <td>Update an existing course.</td>
       </tr>
       <tr>
-        <td><code>DELETE_COURSE</code></td>
-        <td>POST</td>
+        <td><code>/admin/courses/:id</code></td>
+        <td>DELETE</td>
         <td>Yes</td>
+        <td>Admin only</td>
         <td>Delete a course.</td>
       </tr>
       <tr>
-        <td><code>GET_COURSE_PLAN_ITEMS</code></td>
+        <td><code>/admin/students</code></td>
+        <td>GET</td>
+        <td>Yes</td>
+        <td>Admin only</td>
+        <td>Retrieve all students for admin management.</td>
+      </tr>
+      <tr>
+        <td><code>/admin/students/:id</code></td>
+        <td>GET</td>
+        <td>Yes</td>
+        <td>Admin only</td>
+        <td>Retrieve a student by ID for admin management.</td>
+      </tr>
+      <tr>
+        <td><code>/admin/students</code></td>
         <td>POST</td>
-        <td>No</td>
+        <td>Yes</td>
+        <td>Admin only</td>
+        <td>Create a student record from the admin panel.</td>
+      </tr>
+      <tr>
+        <td><code>/admin/students/:id</code></td>
+        <td>PUT</td>
+        <td>Yes</td>
+        <td>Admin only</td>
+        <td>Update a student record from the admin panel.</td>
+      </tr>
+      <tr>
+        <td><code>/admin/students/:id</code></td>
+        <td>DELETE</td>
+        <td>Yes</td>
+        <td>Admin only</td>
+        <td>Delete a student record from the admin panel.</td>
+      </tr>
+      <tr>
+        <td><code>/admin/courses</code></td>
+        <td>GET</td>
+        <td>Yes</td>
+        <td>Admin only</td>
+        <td>Retrieve all courses for admin management.</td>
+      </tr>
+      <tr>
+        <td><code>/admin/courses/:id</code></td>
+        <td>GET</td>
+        <td>Yes</td>
+        <td>Admin only</td>
+        <td>Retrieve a course by ID for admin management.</td>
+      </tr>
+      <tr>
+        <td><code>/admin/courses</code></td>
+        <td>POST</td>
+        <td>Yes</td>
+        <td>Admin only</td>
+        <td>Create a course from the admin panel.</td>
+      </tr>
+      <tr>
+        <td><code>/admin/courses/:id</code></td>
+        <td>PUT</td>
+        <td>Yes</td>
+        <td>Admin only</td>
+        <td>Update a course from the admin panel.</td>
+      </tr>
+      <tr>
+        <td><code>/admin/courses/:id</code></td>
+        <td>DELETE</td>
+        <td>Yes</td>
+        <td>Admin only</td>
+        <td>Delete a course from the admin panel.</td>
+      </tr>
+      <tr>
+        <td><code>/admin/course-plans</code></td>
+        <td>GET</td>
+        <td>Yes</td>
+        <td>Admin only</td>
+        <td>Retrieve all course plans for admin review.</td>
+      </tr>
+      <tr>
+        <td><code>/admin/course-plans/:id/review</code></td>
+        <td>PUT</td>
+        <td>Yes</td>
+        <td>Admin only</td>
+        <td>Review a course plan and update its status.</td>
+      </tr>
+      <tr>
+        <td><code>/coursePlans</code></td>
+        <td>GET</td>
+        <td>Yes</td>
+        <td>Authenticated</td>
+        <td>Retrieve all course plans.</td>
+      </tr>
+      <tr>
+        <td><code>/coursePlans/:id</code></td>
+        <td>GET</td>
+        <td>Yes</td>
+        <td>Authenticated</td>
+        <td>Retrieve a course plan by ID.</td>
+      </tr>
+      <tr>
+        <td><code>/coursePlans</code></td>
+        <td>POST</td>
+        <td>Yes</td>
+        <td>Authenticated</td>
+        <td>Create a course plan.</td>
+      </tr>
+      <tr>
+        <td><code>/coursePlans/:id</code></td>
+        <td>PUT</td>
+        <td>Yes</td>
+        <td>Authenticated</td>
+        <td>Update a course plan.</td>
+      </tr>
+      <tr>
+        <td><code>/coursePlans/:id</code></td>
+        <td>DELETE</td>
+        <td>Yes</td>
+        <td>Authenticated</td>
+        <td>Delete a course plan.</td>
+      </tr>
+      <tr>
+        <td><code>/coursePlanItems</code></td>
+        <td>GET</td>
+        <td>Yes</td>
+        <td>Authenticated</td>
         <td>Retrieve all course plan items.</td>
       </tr>
       <tr>
-        <td><code>INSERT_COURSE_PLAN_ITEMS</code></td>
+        <td><code>/coursePlanItems/:id</code></td>
+        <td>GET</td>
+        <td>Yes</td>
+        <td>Authenticated</td>
+        <td>Retrieve a course plan item by ID.</td>
+      </tr>
+      <tr>
+        <td><code>/coursePlanItems</code></td>
         <td>POST</td>
         <td>Yes</td>
+        <td>Authenticated</td>
         <td>Insert new course plan item(s).</td>
       </tr>
       <tr>
-        <td><code>UPDATE_COURSE_PLAN_ITEM</code></td>
-        <td>POST</td>
+        <td><code>/coursePlanItems/:id</code></td>
+        <td>PUT</td>
         <td>Yes</td>
+        <td>Authenticated</td>
         <td>Update an existing course plan item.</td>
       </tr>
       <tr>
-        <td><code>DELETE_COURSE_PLAN_ITEM</code></td>
-        <td>POST</td>
+        <td><code>/coursePlanItems/:id</code></td>
+        <td>DELETE</td>
         <td>Yes</td>
+        <td>Authenticated</td>
         <td>Delete a course plan item.</td>
       </tr>
       <tr>
-        <td><code>GET_COURSE_PLAN_HISTORY</code></td>
-        <td>POST</td>
-        <td>No</td>
-        <td>Retrieve all items in a plan history entry.</td>
+        <td><code>/student/course-plan</code></td>
+        <td>GET</td>
+        <td>Yes</td>
+        <td>Student only</td>
+        <td>Retrieve the authenticated student's current course plan.</td>
       </tr>
       <tr>
-        <td><code>INSERT_COURSE_PLAN_HISTORY</code></td>
+        <td><code>/student/course-plans</code></td>
+        <td>GET</td>
+        <td>Yes</td>
+        <td>Student only</td>
+        <td>Retrieve the authenticated student's plan history.</td>
+      </tr>
+      <tr>
+        <td><code>/student/course-plan/submit</code></td>
         <td>POST</td>
         <td>Yes</td>
-        <td>Insert new item(s) into a plan history entry.</td>
+        <td>Student only</td>
+        <td>Submit the authenticated student's current course plan.</td>
       </tr>
       <tr>
-        <td><code>UPDATE_COURSE_PLAN_HISTORY</code></td>
+        <td><code>/student/course-plans/:id</code></td>
+        <td>DELETE</td>
+        <td>Yes</td>
+        <td>Student only</td>
+        <td>Cancel a saved student course plan.</td>
+      </tr>
+      <tr>
+        <td><code>/student/course-plan-items/:course_id</code></td>
+        <td>DELETE</td>
+        <td>Yes</td>
+        <td>Student only</td>
+        <td>Remove a course from the student's picked courses.</td>
+      </tr>
+      <tr>
+        <td><code>/student/picked-courses</code></td>
         <td>POST</td>
         <td>Yes</td>
-        <td>Update an existing plan history item.</td>
-      </tr>
-      <tr>
-        <td><code>DELETE_COURSE_PLAN_HISTORY</code></td>
-        <td>POST</td>
-        <td>Yes</td>
-        <td>Delete a plan history item.</td>
-      </tr>
-      <tr>
-        <td><code>GET_COMMENTS</code></td>
-        <td>POST</td>
-        <td>No</td>
-        <td>Retrieve all plan notes or comments.</td>
-      </tr>
-      <tr>
-        <td><code>INSERT_COMMENT</code></td>
-        <td>POST</td>
-        <td>Yes</td>
-        <td>Post a new note or comment.</td>
-      </tr>
-      <tr>
-        <td><code>UPDATE_COMMENT</code></td>
-        <td>POST</td>
-        <td>Yes</td>
-        <td>Edit an existing note or comment.</td>
-      </tr>
-      <tr>
-        <td><code>DELETE_COMMENT</code></td>
-        <td>POST</td>
-        <td>Yes</td>
-        <td>Remove a note or comment.</td>
-      </tr>
-      <tr>
-        <td><code>GET_REPLIES</code></td>
-        <td>POST</td>
-        <td>No</td>
-        <td>Retrieve replies for a note or comment.</td>
-      </tr>
-      <tr>
-        <td><code>INSERT_REPLY</code></td>
-        <td>POST</td>
-        <td>Yes</td>
-        <td>Post a reply to a note or comment.</td>
-      </tr>
-      <tr>
-        <td><code>UPDATE_REPLY</code></td>
-        <td>POST</td>
-        <td>Yes</td>
-        <td>Edit an existing reply.</td>
-      </tr>
-      <tr>
-        <td><code>DELETE_REPLY</code></td>
-        <td>POST</td>
-        <td>Yes</td>
-        <td>Remove a reply.</td>
-      </tr>
-      <tr>
-        <td><code>GET_RATING</code></td>
-        <td>POST</td>
-        <td>Yes</td>
-        <td>Retrieve a user's approval status for a plan.</td>
-      </tr>
-      <tr>
-        <td><code>SAVE_RATING</code></td>
-        <td>POST</td>
-        <td>Yes</td>
-        <td>Submit or update a plan approval value.</td>
-      </tr>
-      <tr>
-        <td><code>DELETE_RATING</code></td>
-        <td>POST</td>
-        <td>Yes</td>
-        <td>Remove a stored approval value.</td>
+        <td>Student only</td>
+        <td>Add a course to the student's picked courses.</td>
       </tr>
     </tbody>
   </table>
