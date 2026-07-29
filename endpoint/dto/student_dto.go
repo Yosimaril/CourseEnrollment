@@ -19,6 +19,6 @@ type StudentResponse struct {
 	Name      string    `json:"name"`
 	Email     string    `json:"email"`
 	Major     string    `json:"major"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
