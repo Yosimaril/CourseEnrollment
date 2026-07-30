@@ -1,12 +1,12 @@
 package models
 
 type Student struct {
-	ID        uint   `json:"id" gorm:"primaryKey"`
-	StudentID string `json:"studentId" gorm:"unique;not null"`
-	FirstName string `json:"firstName"`
-	LastName  string `json:"lastName"`
-	Email     string `json:"email" gorm:"unique;not null"`
-	Major     string `json:"major"`
+	ID         uint    `json:"id" gorm:"primaryKey"`
+	Username   string  `json:"username" gorm:"size:255;not null"`
+	Email      string  `json:"email" gorm:"not null;unique"`
+	Password   string  `json:"-" gorm:"not null"`
+	Nrp        *string `json:"nrp"`
+	MaxCredits *int    `json:"max_credits"`
 
 	BaseModel
 }

@@ -44,16 +44,18 @@ func SetupRouter() *gin.Engine {
 	coursePlanController := controllers.CoursePlanController{}
 	coursePlanItemController := controllers.CoursePlanItemController{}
 
-	auths := r.Group("/auth")
+	// Authentication
+	auth := r.Group("/auth")
 	{
-		auths.POST("/login", authController.Login)
-		auths.POST("/register", authController.Register)
+		auth.POST("/login", authController.Login)
+		auth.POST("/register", authController.Register)
 	}
 
 	api := r.Group("/")
 	api.Use(middleware.JWT())
 
 	{
+		// Users
 		users := api.Group("/users")
 		{
 			users.GET("", userController.GetAll)
@@ -63,15 +65,52 @@ func SetupRouter() *gin.Engine {
 			users.DELETE("/:id", userController.Delete)
 		}
 
+		// Courses (Read-only for authenticated users)
 		courses := api.Group("/courses")
 		{
 			courses.GET("", courseController.GetAll)
 			courses.GET("/:id", courseController.GetByID)
 		}
 
+		// Course Plans
+		coursePlans := api.Group("/course-plans")
+		{
+			coursePlans.GET("", coursePlanController.GetAll)
+			coursePlans.GET("/:id", coursePlanController.GetByID)
+			coursePlans.POST("", coursePlanController.Create)
+			coursePlans.PUT("/:id", coursePlanController.Update)
+			coursePlans.DELETE("/:id", coursePlanController.Delete)
+		}
+
+		// Course Plan Items
+		coursePlanItems := api.Group("/course-plan-items")
+		{
+			coursePlanItems.GET("", coursePlanItemController.GetAll)
+			coursePlanItems.GET("/:id", coursePlanItemController.GetByID)
+			coursePlanItems.POST("", coursePlanItemController.Create)
+			coursePlanItems.PUT("/:id", coursePlanItemController.Update)
+			coursePlanItems.DELETE("/:id", coursePlanItemController.Delete)
+		}
+
+		// Student
+		student := api.Group("/student")
+		student.Use(middleware.RequireRole(constants.RoleStudent))
+		{
+			student.GET("/course-plan", coursePlanController.GetCurrentCoursePlan)
+			student.GET("/course-plans", coursePlanController.GetCoursePlans)
+
+			student.POST("/course-plan/submit", coursePlanController.SubmitCurrentCoursePlan)
+			student.DELETE("/course-plans/:id", coursePlanController.CancelCoursePlan)
+
+			student.POST("/picked-courses", coursePlanItemController.AddToPickedCourses)
+			student.DELETE("/picked-courses/:courseId", coursePlanItemController.DeleteFromPickedCourses)
+		}
+
+		// Admin
 		admin := api.Group("/admin")
 		admin.Use(middleware.RequireRole(constants.RoleAdmin))
 		{
+			// Students
 			adminStudents := admin.Group("/students")
 			{
 				adminStudents.GET("", userController.GetAll)
@@ -81,6 +120,7 @@ func SetupRouter() *gin.Engine {
 				adminStudents.DELETE("/:id", userController.Delete)
 			}
 
+			// Courses
 			adminCourses := admin.Group("/courses")
 			{
 				adminCourses.GET("", courseController.GetAll)
@@ -90,40 +130,12 @@ func SetupRouter() *gin.Engine {
 				adminCourses.DELETE("/:id", courseController.Delete)
 			}
 
+			// Course Plans
 			adminCoursePlans := admin.Group("/course-plans")
 			{
 				adminCoursePlans.GET("", coursePlanController.GetAll)
 				adminCoursePlans.PUT("/:id/review", coursePlanController.ReviewCoursePlan)
 			}
-		}
-
-		coursePlans := api.Group("/coursePlans")
-		{
-			coursePlans.GET("", coursePlanController.GetAll)
-			coursePlans.GET("/:id", coursePlanController.GetByID)
-			coursePlans.POST("", coursePlanController.Create)
-			coursePlans.PUT("/:id", coursePlanController.Update)
-			coursePlans.DELETE("/:id", coursePlanController.Delete)
-		}
-
-		coursePlanItems := api.Group("/coursePlanItems")
-		{
-			coursePlanItems.GET("", coursePlanItemController.GetAll)
-			coursePlanItems.GET("/:id", coursePlanItemController.GetByID)
-			coursePlanItems.POST("", coursePlanItemController.Create)
-			coursePlanItems.PUT("/:id", coursePlanItemController.Update)
-			coursePlanItems.DELETE("/:id", coursePlanItemController.Delete)
-		}
-
-		student := api.Group("/student")
-		student.Use(middleware.RequireRole(constants.RoleStudent))
-		{
-			student.GET("/course-plan", coursePlanController.GetCurrentStudentPlan)
-			student.GET("/course-plans", coursePlanController.GetMyHistory)
-			student.POST("/course-plan/submit", coursePlanController.SubmitCurrentStudentPlan)
-			student.DELETE("/course-plans/:id", coursePlanController.CancelStudentCoursePlan)
-			student.DELETE("/course-plan-items/:course_id", coursePlanItemController.DeleteFromPickedCourses)
-			student.POST("/picked-courses", coursePlanItemController.AddToPickedCourses)
 		}
 	}
 

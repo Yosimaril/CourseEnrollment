@@ -8,5 +8,5 @@ type Course struct {
 
 	BaseModel
 
-	CoursePlanItems []CoursePlanItem `gorm:"foreignKey:CourseID"`
+	CoursePlanItems []CoursePlanItem `json:"course_plan_items" gorm:"foreignKey:CourseID"`
 }

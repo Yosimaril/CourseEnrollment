@@ -50,7 +50,7 @@ func (cpc CoursePlanController) GetAll(c *gin.Context) {
 	c.JSON(http.StatusOK, coursePlans)
 }
 
-func (cpc CoursePlanController) GetCurrentStudentPlan(c *gin.Context) {
+func (cpc CoursePlanController) GetCurrentCoursePlan(c *gin.Context) {
 	claimsValue, exists := c.Get("claims")
 	if !exists {
 		c.JSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized"})
@@ -73,7 +73,7 @@ func (cpc CoursePlanController) GetCurrentStudentPlan(c *gin.Context) {
 	c.JSON(http.StatusOK, coursePlan)
 }
 
-func (cpc CoursePlanController) GetMyHistory(c *gin.Context) {
+func (cpc CoursePlanController) GetCoursePlans(c *gin.Context) {
 	claimsValue, exists := c.Get("claims")
 	if !exists {
 		c.JSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized"})
@@ -96,7 +96,7 @@ func (cpc CoursePlanController) GetMyHistory(c *gin.Context) {
 	c.JSON(http.StatusOK, coursePlans)
 }
 
-func (cpc CoursePlanController) SubmitCurrentStudentPlan(c *gin.Context) {
+func (cpc CoursePlanController) SubmitCurrentCoursePlan(c *gin.Context) {
 	claimsValue, exists := c.Get("claims")
 	if !exists {
 		c.JSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized"})
@@ -132,7 +132,7 @@ func (cpc CoursePlanController) SubmitCurrentStudentPlan(c *gin.Context) {
 	c.JSON(http.StatusOK, coursePlan)
 }
 
-func (cpc CoursePlanController) CancelStudentCoursePlan(c *gin.Context) {
+func (cpc CoursePlanController) CancelCoursePlan(c *gin.Context) {
 	claimsValue, exists := c.Get("claims")
 	if !exists {
 		c.JSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized"})

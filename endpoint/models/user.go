@@ -15,5 +15,5 @@ type User struct {
 
 	BaseModel
 
-	CoursePlans []CoursePlan `gorm:"foreignKey:StudentID"`
+	CoursePlans []CoursePlan `json:"course_plans" gorm:"foreignKey:StudentID"`
 }
