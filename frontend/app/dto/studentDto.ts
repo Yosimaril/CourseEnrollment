@@ -1,10 +1,15 @@
-import type { BaseIdDto } from "./baseIdDto.ts";
-import type { BaseTimestampDto } from "./baseTimestampDto.ts";
+import { z } from "zod";
+import { BaseIdDto } from "./baseIdDto.ts";
+import { BaseTimestampDto } from "./baseTimestampDto.ts";
 
-export interface StudentDto extends BaseIdDto, BaseTimestampDto {
-    username: string;
-    email: string;
-    password?: string;
-    nrp?: string;
-    max_credits?: number;
-}
+export const StudentDto = BaseIdDto
+    .extend(BaseTimestampDto)
+    .extend({
+        username: z.string(),
+        email: z.string().email(),
+        password: z.string().optional(),
+        nrp: z.string().optional(),
+        max_credits: z.number().optional(),
+    });
+
+export type StudentDtoType = z.infer<typeof StudentDto>;

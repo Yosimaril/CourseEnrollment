@@ -1,12 +1,15 @@
-import type { BaseIdDto } from "./baseIdDto.ts";
-import type { BaseTimestampDto } from "./baseTimestampDto.ts";
-import type { UserRoleEnum } from "../constants/userRoleEnum";
+import { z } from "zod";
+import { BaseIdDto } from "./baseIdDto.js";
+import { BaseTimestampDto } from "./baseTimestampDto.ts";
+import { UserRoleEnum } from "../constants/userRoleEnum";
 
-export interface UserDto extends BaseIdDto, BaseTimestampDto {
-    username: string;
-    email: string;
-    password?: string;
-    role: UserRoleEnum;
-    nrp?: string;
-    max_credits?: number;
-}
+export const UserDto = BaseIdDto.extend(BaseTimestampDto).extend({
+    username: z.string(),
+    email: z.email(),
+    password: z.string().optional(),
+    role: z.enum(UserRoleEnum),
+    nrp: z.string().optional(),
+    max_credits: z.number().optional(),
+});
+
+export type UserDtoType = z.infer<typeof UserDto>;

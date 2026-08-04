@@ -1,9 +1,12 @@
-import type { BaseTimestampDto } from "./baseTimestampDto.ts";
-import type { CoursePlanItemStatusEnum } from "../constants/coursePlanItemStatusEnum";
+import { z } from "zod";
+import { BaseTimestampDto } from "./baseTimestampDto.ts";
+import { CoursePlanItemStatusEnum } from "../constants/coursePlanItemStatusEnum";
 
-export interface CoursePlanItemDto extends BaseTimestampDto {
-    course_plan_id: number;
-    course_id: number;
-    status: CoursePlanItemStatusEnum;
-    remarks?: string;
-}
+export const CoursePlanItemDto = BaseTimestampDto.extend({
+    course_plan_id: z.number(),
+    course_id: z.number(),
+    status: z.enum(CoursePlanItemStatusEnum),
+    remarks: z.string().optional(),
+});
+
+export type CoursePlanItemDtoType = z.infer<typeof CoursePlanItemDto>;
