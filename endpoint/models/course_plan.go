@@ -12,5 +12,5 @@ type CoursePlan struct {
 	BaseModel
 
 	Student User             `json:"user" gorm:"foreignKey:StudentID"`
-	Items   []CoursePlanItem `json:"course_plan_item" gorm:"foreignKey:CoursePlanID"`
+	Items   []CoursePlanItem `json:"course_plan_items" gorm:"foreignKey:CoursePlanID"`
 }

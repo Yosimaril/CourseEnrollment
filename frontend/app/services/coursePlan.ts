@@ -19,9 +19,9 @@ function normalizeUser(user?: RawUser): User | undefined {
         email: user.email ?? "",
         role: (user.role ?? "STUDENT") as User["role"],
         nrp: user.nrp,
-        maxCredits: user.maxCredits ?? user.max_credits,
-        createdAt: user.createdAt ?? user.created_at ?? "",
-        updatedAt: user.updatedAt ?? user.updated_at ?? "",
+        maxCredits: user.max_credits,
+        createdAt: user.created_at ?? "",
+        updatedAt: user.updated_at ?? "",
     };
 }
 
