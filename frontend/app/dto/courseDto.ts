@@ -1,13 +1,11 @@
 import { z } from "zod";
-import { BaseIdDto } from "./baseIdDto.ts";
-import { BaseTimestampDto } from "./baseTimestampDto.ts";
+import { BaseIdDto } from "./baseIdDto";
+import { BaseTimestampDto } from "./baseTimestampDto";
 
-export const CourseDto = BaseIdDto
-    .extend(BaseTimestampDto)
-    .extend({
-        code: z.string(),
-        name: z.string(),
-        credits: z.number(),
-    });
+export const CourseDtoSchema = BaseIdDto.merge(BaseTimestampDto).extend({
+    code: z.string(),
+    name: z.string(),
+    credits: z.number(),
+});
 
-export type CourseDtoType = z.infer<typeof CourseDto>;
+export type CourseDto = z.infer<typeof CourseDtoSchema>;

@@ -72,8 +72,8 @@ import { CoursePlanService } from "~/services/coursePlan";
 import type { CoursePlan } from "~/models/coursePlan";
 import { CoursePlanStatusEnum } from "~/constants/coursePlanStatusEnum";
 import { extractErrorMessage } from "~/utils/auth";
-import { CoursePlanItemStatusMapper } from "~/mapper/coursePlanItemStatusMapper";
-import { CoursePlanStatusMapper } from "~/mapper/coursePlanStatusMapper";
+import { CoursePlanItemStatusMapper } from "~/mapper/frontend/coursePlanItemStatusMapper";
+import { CoursePlanStatusMapper } from "~/mapper/frontend/coursePlanStatusMapper";
 import { formatDate } from "~/utils/date";
 
 definePageMeta({

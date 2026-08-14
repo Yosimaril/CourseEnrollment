@@ -71,7 +71,7 @@ import { CoursePlanStatusEnum } from "~/constants/coursePlanStatusEnum";
 import { CoursePlanService } from "~/services/coursePlan";
 import type { CoursePlan } from "~/models/coursePlan";
 import { clearStoredToken, extractErrorMessage } from "~/utils/auth";
-import { CoursePlanStatusMapper } from "~/mapper/coursePlanStatusMapper";
+import { CoursePlanStatusMapper } from "~/mapper/frontend/coursePlanStatusMapper";
 
 definePageMeta({
     middleware: ["auth", "student"],

@@ -1,32 +1,32 @@
-import type { BaseIdDto } from "~/dto/baseIdDto";
-import type { BaseTimestampDto } from "~/dto/baseTimestampDto";
-import type { CoursePlanItemDto } from "../dto/coursePlanItemDto";
-import type { StudentDto } from "../dto/studentDto";
-
-export type RawCoursePlan = BaseIdDto &
-    BaseTimestampDto & {
-        id: number;
-        student_id: number;
-        status: string;
-        items: CoursePlanItemDto[];
-        student: StudentDto;
-    };
+import type { CoursePlan } from "~/models/coursePlan";
+import type { CoursePlanDto } from "~/dto/coursePlanDto";
+import { UserMapper } from "./userMapper";
+import { CoursePlanItemMapper } from "./coursePlanItemMapper";
 
 export class CoursePlanMapper {
-    static fromJson(json: unknown): RawCoursePlan {
-        return json as RawCoursePlan;
-    }
-
-    static toJson(dto: RawCoursePlan): object {
+    static toModel(dto: CoursePlanDto): CoursePlan {
         return {
             id: dto.id,
-            student_id: dto.student_id,
+            studentId: dto.student_id,
             status: dto.status,
-            student: dto.student,
-            items: dto.items,
-            created_at: dto.created_at,
-            updated_at: dto.updated_at,
-            deleted_at: dto.deleted_at,
+            student: dto.student ? UserMapper.toModel(dto.student) : undefined,
+            items: dto.course_plan_items.map(CoursePlanItemMapper.toModel),
+            createdAt: new Date(dto.created_at),
+            updatedAt: new Date(dto.updated_at),
+            deletedAt: dto.deleted_at ? new Date(dto.deleted_at) : null,
+        };
+    }
+
+    static toDto(model: CoursePlan): CoursePlanDto {
+        return {
+            id: model.id,
+            student_id: model.studentId,
+            status: model.status,
+            student: model.student ? UserMapper.toDto(model.student) : undefined,
+            course_plan_items: model.items.map(CoursePlanItemMapper.toDto),
+            created_at: model.createdAt.toISOString(),
+            updated_at: model.updatedAt.toISOString(),
+            deleted_at: model.deletedAt ? model.deletedAt.toISOString() : null,
         };
     }
 }

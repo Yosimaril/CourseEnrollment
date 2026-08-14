@@ -1,28 +1,35 @@
-import type { BaseIdDto } from "~/dto/baseIdDto";
-import type { BaseTimestampDto } from "~/dto/baseTimestampDto";
-
-export type RawStudent = BaseIdDto &
-    BaseTimestampDto & {
-        username: string;
-        email: string;
-        nrp: string;
-        max_credits: number;
-    };
+import type { Student } from "~/models/student";
+import type { StudentDto } from "~/dto/studentDto";
+import { CoursePlanMapper } from "./coursePlanMapper";
 
 export class StudentMapper {
-    static fromJson(json: unknown): RawStudent {
-        return json as RawStudent;
-    }
-
-    static toJson(dto: RawStudent): object {
+    static toModel(dto: StudentDto): Student {
         return {
             id: dto.id,
             username: dto.username,
             email: dto.email,
+            password: dto.password ?? undefined,
             nrp: dto.nrp,
-            max_credits: dto.max_credits,
-            created_at: dto.created_at,
-            updated_at: dto.updated_at,
+            maxCredits: dto.max_credits,
+            coursePlans: dto.course_plans ? dto.course_plans.map(CoursePlanMapper.toModel) : undefined,
+            createdAt: new Date(dto.created_at),
+            updatedAt: new Date(dto.updated_at),
+            deletedAt: dto.deleted_at ? new Date(dto.deleted_at) : null,
+        };
+    }
+
+    static toDto(model: Student): StudentDto {
+        return {
+            id: model.id,
+            username: model.username,
+            email: model.email,
+            password: model.password ?? null,
+            nrp: model.nrp,
+            max_credits: model.maxCredits,
+            course_plans: model.coursePlans ? model.coursePlans.map(CoursePlanMapper.toDto) : undefined,
+            created_at: model.createdAt.toISOString(),
+            updated_at: model.updatedAt.toISOString(),
+            deleted_at: model.deletedAt ? model.deletedAt.toISOString() : null,
         };
     }
 }

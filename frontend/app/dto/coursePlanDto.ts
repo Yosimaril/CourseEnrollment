@@ -1,13 +1,15 @@
 import { z } from "zod";
-import { BaseIdDto } from "./baseIdDto.ts";
-import { BaseTimestampDto } from "./baseTimestampDto.ts";
-import { CoursePlanStatusEnum } from "../constants/coursePlanStatusEnum.ts";
+import { BaseIdDto } from "./baseIdDto";
+import { BaseTimestampDto } from "./baseTimestampDto";
+import { CoursePlanStatusEnum } from "../constants/coursePlanStatusEnum";
+import { UserDtoSchema } from "./userDto";
+import { CoursePlanItemDtoSchema } from "./coursePlanItemDto";
 
-export const CoursePlanDto = BaseIdDto
-    .extend(BaseTimestampDto)
-    .extend({
-        student_id: z.number(),
-        status: z.enum(CoursePlanStatusEnum),
-    });
+export const CoursePlanDtoSchema = BaseIdDto.merge(BaseTimestampDto).extend({
+    student_id: z.number(),
+    status: z.enum(CoursePlanStatusEnum),
+    student: UserDtoSchema.optional(),
+    course_plan_items: z.array(CoursePlanItemDtoSchema),
+});
 
-export type CoursePlanDtoType = z.infer<typeof CoursePlanDto>;
+export type CoursePlanDto = z.infer<typeof CoursePlanDtoSchema>;

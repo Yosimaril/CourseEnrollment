@@ -1,26 +1,28 @@
-import type { BaseIdDto } from "~/dto/baseIdDto";
-import type { BaseTimestampDto } from "~/dto/baseTimestampDto";
-
-export type RawCourse = BaseIdDto &
-    BaseTimestampDto & {
-        code: string;
-        name: string;
-        credits: number;
-    };
+import type { Course } from "~/models/course";
+import type { CourseDto } from "~/dto/courseDto";
 
 export class CourseMapper {
-    static fromJson(json: unknown): RawCourse {
-        return json as RawCourse;
-    }
-
-    static toJson(dto: RawCourse): object {
+    static toModel(dto: CourseDto): Course {
         return {
             id: dto.id,
             code: dto.code,
             name: dto.name,
             credits: dto.credits,
-            created_at: dto.created_at,
-            updated_at: dto.updated_at,
+            createdAt: new Date(dto.created_at),
+            updatedAt: new Date(dto.updated_at),
+            deletedAt: dto.deleted_at ? new Date(dto.deleted_at) : null,
+        };
+    }
+
+    static toDto(model: Course): CourseDto {
+        return {
+            id: model.id,
+            code: model.code,
+            name: model.name,
+            credits: model.credits,
+            created_at: model.createdAt.toISOString(),
+            updated_at: model.updatedAt.toISOString(),
+            deleted_at: model.deletedAt ? model.deletedAt.toISOString() : null,
         };
     }
 }

@@ -1,15 +1,15 @@
 import { z } from "zod";
-import { BaseIdDto } from "./baseIdDto.js";
-import { BaseTimestampDto } from "./baseTimestampDto.ts";
+import { BaseIdDto } from "./baseIdDto";
+import { BaseTimestampDto } from "./baseTimestampDto";
 import { UserRoleEnum } from "../constants/userRoleEnum";
 
-export const UserDto = BaseIdDto.extend(BaseTimestampDto).extend({
+export const UserDtoSchema = BaseIdDto.merge(BaseTimestampDto).extend({
     username: z.string(),
     email: z.email(),
     password: z.string().optional(),
     role: z.enum(UserRoleEnum),
-    nrp: z.string().optional(),
-    max_credits: z.number().optional(),
+    nrp: z.string().nullable().optional(),
+    max_credits: z.number().nullable().optional(),
 });
 
-export type UserDtoType = z.infer<typeof UserDto>;
+export type UserDto = z.infer<typeof UserDtoSchema>;
